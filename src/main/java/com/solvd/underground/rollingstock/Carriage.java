@@ -1,11 +1,11 @@
-package com.solvd.underground;
+package com.solvd.underground.rollingstock;
 
 public class Carriage {
 
     private long id;
     private int seatCapacity;
     private String manufacturer;
-    private int carriageNumber;
+    private int number;
 
     public long getId() {
         return id;
@@ -31,11 +31,11 @@ public class Carriage {
         this.manufacturer = manufacturer;
     }
 
-    public int getCarriageNumber() {
-        return carriageNumber;
+    public int getNumber() {
+        return number;
     }
 
-    public void setCarriageNumber(int carriageNumber) {
-        this.carriageNumber = carriageNumber;
+    public void setNumber(int number) {
+        this.number = number;
     }
 }

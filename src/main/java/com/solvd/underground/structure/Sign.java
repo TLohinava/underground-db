@@ -1,4 +1,4 @@
-package com.solvd.underground;
+package com.solvd.underground.structure;
 
 public class Sign {
 

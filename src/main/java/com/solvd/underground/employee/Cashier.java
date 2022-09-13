@@ -1,8 +1,8 @@
-package com.solvd.underground;
+package com.solvd.underground.employee;
 
 import java.time.LocalDate;
 
-public class Driver {
+public class Cashier {
 
     private long id;
     private String firstName;
