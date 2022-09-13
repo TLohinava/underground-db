@@ -6,14 +6,14 @@ import java.util.List;
 
 public class TicketBox {
 
-    private long id;
+    private Long id;
     private List<Cashier> cashiers;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -2,14 +2,14 @@ package com.solvd.underground.structure;
 
 public class Platform {
 
-    private long id;
+    private Long id;
     private Sign sign;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

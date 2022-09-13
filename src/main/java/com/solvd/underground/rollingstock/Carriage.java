@@ -2,24 +2,24 @@ package com.solvd.underground.rollingstock;
 
 public class Carriage {
 
-    private long id;
-    private int seatCapacity;
+    private Long id;
+    private Integer seatCapacity;
     private String manufacturer;
-    private int number;
+    private Integer number;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getSeatCapacity() {
+    public Integer getSeatCapacity() {
         return seatCapacity;
     }
 
-    public void setSeatCapacity(int seatCapacity) {
+    public void setSeatCapacity(Integer seatCapacity) {
         this.seatCapacity = seatCapacity;
     }
 
@@ -31,11 +31,11 @@ public class Carriage {
         this.manufacturer = manufacturer;
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 }
