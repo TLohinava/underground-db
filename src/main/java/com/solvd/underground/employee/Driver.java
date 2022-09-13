@@ -1,19 +1,19 @@
-package com.solvd.underground;
+package com.solvd.underground.employee;
 
 import java.time.LocalDate;
 
 public class Driver {
 
-    private long id;
+    private Long id;
     private String firstName;
     private String lastName;
     private LocalDate dob;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

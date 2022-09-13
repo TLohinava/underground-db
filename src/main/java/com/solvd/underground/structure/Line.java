@@ -1,19 +1,19 @@
-package com.solvd.underground;
+package com.solvd.underground.structure;
 
 import java.util.List;
 
 public class Line {
 
-    private long id;
+    private Long id;
     private String name;
     private List<Station> stations;
     private Depot depot;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
