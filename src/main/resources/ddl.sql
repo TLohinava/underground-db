@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `undergrounds`.`cashiers` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL,
-  `dob` TIME NOT NULL,
+  `dob` DATE NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -196,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `undergrounds`.`drivers` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL,
-  `dob` TIME NOT NULL,
+  `dob` DATE NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
