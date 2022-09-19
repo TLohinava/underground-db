@@ -1,12 +1,13 @@
-package com.solvd.underground.structure;
+package com.solvd.underground.domain.structure;
 
-import com.solvd.underground.rollingstock.Train;
+import com.solvd.underground.domain.rollingstock.Train;
 
 import java.util.List;
 
 public class Depot {
 
     private Long id;
+    private String address;
     private List<Train> trains;
 
     public Long getId() {
@@ -23,5 +24,13 @@ public class Depot {
 
     public void setTrains(List<Train> trains) {
         this.trains = trains;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

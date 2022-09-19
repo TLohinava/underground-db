@@ -6,7 +6,19 @@
 
     <groupId>com.solvd</groupId>
     <artifactId>underground</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>17.0-SNAPSHOT</version>
+
+    <properties>
+        <mysql-connector-version>8.0.30</mysql-connector-version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector-version}</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <pluginManagement>
@@ -24,5 +36,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
 </project>

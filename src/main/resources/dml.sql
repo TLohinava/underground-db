@@ -58,10 +58,6 @@ union
 select first_name, last_name from cashiers
 order by last_name;
 
--- add new column to the table depots
-alter table depots
-add address varchar(100);
-
 insert into depots (address)
 values ("Moskovskaya str, 5"),
 ("Aranskaya str, 15");
