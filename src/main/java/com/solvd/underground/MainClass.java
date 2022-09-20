@@ -20,13 +20,13 @@ public class MainClass {
         Carriage carriage = new Carriage();
         carriage.setSeatCapacity(100);
         carriage.setManufacturer("Stadler");
-        carriage.setNumber(9999);
+        carriage.setNumber(6655);
 
         Station station = new Station();
-        station.setName("R");
+        station.setName("Romashkovo");
 
         Train train = new Train();
-        train.setNumber(1233);
+        train.setNumber(5566);
         train.setCarriages(List.of(carriage));
         train.setDrivers(List.of(driver));
 
@@ -36,11 +36,14 @@ public class MainClass {
 
         Line line = new Line();
         line.setDepot(depot);
-        line.setName("A");
+        line.setName("Druzhba");
         line.setStations(List.of(station));
 
-        LineService lineService = new LineServiceImpl();
-
-        lineService.getAll();
+        LineService ls = new LineServiceImpl();
+        ls.create(line);
+        Line oneLine = ls.getAll().stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Meep"));
+        ls.delete(oneLine.getId());
     }
 }

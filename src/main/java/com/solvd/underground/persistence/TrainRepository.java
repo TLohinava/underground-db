@@ -8,4 +8,6 @@ public interface TrainRepository extends BaseRepository<Train> {
 
     void update(Train train, Long id, Long depotId);
 
+    Train findTrain();
+
 }

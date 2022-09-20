@@ -33,8 +33,8 @@ public class DepotServiceImpl implements DepotService {
     }
 
     @Override
-    public Depot read(Long id) {
-        return depotRepository.read(id);
+    public Depot findDepot() {
+        return depotRepository.findDepot();
     }
 
     @Override

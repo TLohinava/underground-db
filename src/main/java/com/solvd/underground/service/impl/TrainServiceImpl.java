@@ -1,6 +1,5 @@
 package com.solvd.underground.service.impl;
 
-import com.solvd.underground.domain.employee.Driver;
 import com.solvd.underground.domain.rollingstock.*;
 import com.solvd.underground.persistence.TrainRepository;
 import com.solvd.underground.persistence.impl.TrainRepositoryImpl;
@@ -13,12 +12,10 @@ public class TrainServiceImpl implements TrainService {
 
     private final TrainRepository trainRepository;
     private final CarriageService carriageService;
-    private final DriverService driverService;
 
     public TrainServiceImpl() {
         this.trainRepository = new TrainRepositoryImpl();
         this.carriageService = new CarriageServiceImpl();
-        this.driverService = new DriverServiceImpl();
     }
 
     @Override
@@ -33,21 +30,17 @@ public class TrainServiceImpl implements TrainService {
                     .collect(Collectors.toList());
             train.setCarriages(carriages);
         }
-
-        if (train.getDrivers() != null) {
-            List<Driver> drivers = train.getDrivers().stream()
-                    .map(driverService::create)
-                    .collect(Collectors.toList());
-            train.setDrivers(drivers);
-        }
         return train;
     }
 
+    @Override
+    public Train findTrain() {
+        return trainRepository.findTrain();
+    }
 
     @Override
-    public Train update(Train train, Long id, Long depotId) {
+    public void update(Train train, Long id, Long depotId) {
         trainRepository.update(train, id, depotId);
-        return train;
     }
 
     @Override

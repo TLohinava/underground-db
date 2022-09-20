@@ -1,10 +1,10 @@
 package com.solvd.underground.persistence.impl;
 
 import com.solvd.underground.domain.structure.Depot;
-import com.solvd.underground.domain.structure.Line;
 import com.solvd.underground.persistence.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DepotRepositoryImpl implements DepotRepository {
@@ -28,16 +28,55 @@ public class DepotRepositoryImpl implements DepotRepository {
         }
     }
 
-    public Depot read(Long id) {
-        Connection connection = CONNECTION_POOL.getConnection();
+    private static Depot getById(Long id, List<Depot> depots) {
+        return depots.stream()
+                .filter(dep -> dep.getId().equals(id))
+                .findFirst()
+                .orElseGet(() -> {
+                    Depot depot = new Depot();
+                    depot.setId(id);
+                    depots.add(depot);
+                    return depot;
+                });
+    }
+
+    public static Depot mapDepot(ResultSet rs) throws SQLException {
+        Long id = rs.getLong("depot_id");
+        List<Depot> depots = new ArrayList<>();
         Depot depot = new Depot();
-        try (PreparedStatement statement = connection.prepareStatement("select address from depots where id = ?", Statement.RETURN_GENERATED_KEYS)) {
-            statement.setLong(1, id);
-            ResultSet rs = statement.executeQuery();
-            while(rs.next()) {
-                depot.setId(id);
-                depot.setAddress(rs.getString("address"));
+        if (id != 0) {
+            depot = getById(id, depots);
+            depot.setId(id);
+            depot.setAddress(rs.getString("depot_address"));
+            depot.setTrains(TrainRepositoryImpl.mapTrains(rs));
+        }
+        return depot;
+    }
+
+    public Depot findDepot() {
+        Depot depot;
+        Connection connection = CONNECTION_POOL.getConnection();
+
+        String query = "Select d.id as depot_id, d.address as depot_address, \n" +
+                "t.id as train_id, t.number as train_number, c.id as carriage_id, \n" +
+                "c.seat_capacity, c.carriage_number, c.manufacturer \n" +
+                "from depots d \n" +
+                "left join trains t on d.id = t.depot_id \n" +
+                "left join carriages c on t.id = c.train_id \n";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet set = statement.executeQuery();
+            List<Depot> depots = new ArrayList<>();
+            depot = new Depot();
+            while (set.next()) {
+                Long depotId = set.getLong("depot_id");
+                depot = getById(depotId, depots);
+                depot.setId(depotId);
+                depot.setAddress(set.getString("depot_address"));
+                depot.setTrains(TrainRepositoryImpl.mapTrains(set));
             }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {

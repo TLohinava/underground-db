@@ -37,7 +37,7 @@ public class CarriageRepositoryImpl implements CarriageRepository {
 
     private static Carriage getById(Long id, List<Carriage> carriages) {
         return carriages.stream()
-                .filter(st -> st.getId().equals(id))
+                .filter(c -> c.getId().equals(id))
                 .findFirst()
                 .orElseGet(() -> {
                     Carriage carriage = new Carriage();
@@ -48,7 +48,7 @@ public class CarriageRepositoryImpl implements CarriageRepository {
     }
 
     public static List<Carriage> mapRow(ResultSet rs, List<Carriage> carriages) throws SQLException {
-        Long id = rs.getLong("id");
+        Long id = rs.getLong("carriage_id");
         if (id != 0) {
             if (carriages == null) {
                 carriages = new ArrayList<>();
@@ -63,26 +63,43 @@ public class CarriageRepositoryImpl implements CarriageRepository {
 
     public static List<Carriage> mapCarriages(ResultSet rs) throws SQLException {
         List<Carriage> carriages = new ArrayList<>();
-
         while (rs.next()) {
             carriages = mapRow(rs, carriages);
         }
         return carriages;
     }
 
-    @Override
-    public void update(Carriage carriage, Long id) {
+    public Carriage findCarriage(Long trainId) {
+        Carriage carriage;
+        Connection connection = CONNECTION_POOL.getConnection();
+
+        String query = "Select c.id as carriage_id, c.seat_capacity, c.carriage_number, c.manufacturer from carriages c where train_id = ?";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, trainId);
+            ResultSet set = statement.executeQuery();
+
+            List<Carriage> carriages = mapCarriages(set);
+            carriage = carriages.stream()
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Bazinga"));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CONNECTION_POOL.releaseConnection(connection);
+        }
+        return carriage;
     }
 
     @Override
-    public void update(Carriage carriage, Long id, Long trainId) {
+    public void update(Carriage carriage, Long id) {
         Connection connection = CONNECTION_POOL.getConnection();
-        try (PreparedStatement statement = connection.prepareStatement("Update carriages set train_id = ?, seat_capacity = ?, manufacturer = ?, carriage_number = ? where id = ?")) {
-            statement.setLong(1, trainId);
-            statement.setInt(2, carriage.getSeatCapacity());
-            statement.setString(3, carriage.getManufacturer());
-            statement.setInt(4, carriage.getNumber());
-            statement.setLong(5, id);
+        try (PreparedStatement statement = connection.prepareStatement("Update carriages set seat_capacity = ?, manufacturer = ?, carriage_number = ? where id = ?")) {
+            statement.setInt(1, carriage.getSeatCapacity());
+            statement.setString(2, carriage.getManufacturer());
+            statement.setInt(3, carriage.getNumber());
+            statement.setLong(4, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

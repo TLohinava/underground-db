@@ -6,7 +6,9 @@ public interface TrainService {
 
     Train create(Train train, Long depotId);
 
-    Train update(Train train, Long id, Long depotId);
+    Train findTrain();
+
+    void update(Train train, Long id, Long depotId);
 
     void delete(int id);
 

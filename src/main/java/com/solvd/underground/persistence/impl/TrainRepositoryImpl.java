@@ -35,7 +35,7 @@ public class TrainRepositoryImpl implements TrainRepository {
 
     private static Train getById(Long id, List<Train> trains) {
         return trains.stream()
-                .filter(st -> st.getId().equals(id))
+                .filter(t -> t.getId().equals(id))
                 .findFirst()
                 .orElseGet(() -> {
                     Train train = new Train();
@@ -46,14 +46,13 @@ public class TrainRepositoryImpl implements TrainRepository {
     }
 
     public static List<Train> mapRow(ResultSet rs, List<Train> trains) throws SQLException {
-        Long id = rs.getLong("id");
+        Long id = rs.getLong("train_id");
         if (id != 0) {
             if (trains == null) {
                 trains = new ArrayList<>();
             }
             Train train = getById(id, trains);
-            train.setNumber(rs.getInt("number"));
-            train.setDrivers(DriverRepositoryImpl.mapDrivers(rs));
+            train.setNumber(rs.getInt("train_number"));
             train.setCarriages(CarriageRepositoryImpl.mapCarriages(rs));
         }
         return trains;
@@ -61,11 +60,32 @@ public class TrainRepositoryImpl implements TrainRepository {
 
     public static List<Train> mapTrains(ResultSet rs) throws SQLException {
         List<Train> trains = new ArrayList<>();
+        return mapRow(rs, trains);
+    }
 
-        while (rs.next()) {
-            trains = mapRow(rs, trains);
+    public Train findTrain() {
+        Train train;
+        Connection connection = CONNECTION_POOL.getConnection();
+
+        String query = "Select t.id as train_id, t.number as train_number from  trains t";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet set = statement.executeQuery();
+            List<Train> trains = new ArrayList<>();
+            train = new Train();
+            while (set.next()) {
+                Long trainId = set.getLong("train_id");
+                train = getById(trainId, trains);
+                train.setId(trainId);
+                train.setNumber(set.getInt("train_number"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CONNECTION_POOL.releaseConnection(connection);
         }
-        return trains;
+        return train;
     }
 
     @Override

@@ -1,8 +1,6 @@
 package com.solvd.underground.persistence.impl;
 
-import com.solvd.underground.domain.structure.Depot;
 import com.solvd.underground.domain.structure.Line;
-import com.solvd.underground.domain.structure.Station;
 import com.solvd.underground.persistence.ConnectionPool;
 import com.solvd.underground.persistence.LineRepository;
 
@@ -47,14 +45,11 @@ public class LineRepositoryImpl implements LineRepository {
     public static List<Line> mapLines(ResultSet rs) throws SQLException {
         List<Line> lines = new ArrayList<>();
         while (rs.next()) {
-            Long id = rs.getLong(1);
+            Long id = rs.getLong("line_id");
             Line line = getById(id, lines);
-            line.setName(rs.getString(3));
+            line.setName(rs.getString("line_name"));
 
-            List<Station> stations = StationRepositoryImpl.mapStations(rs);
-            line.setStations(stations);
-
-//            line.setDepot(DepotRepositoryImpl.mapRow(rs));
+            line.setDepot(DepotRepositoryImpl.mapDepot(rs));
         }
         return lines;
     }
@@ -63,11 +58,13 @@ public class LineRepositoryImpl implements LineRepository {
         List<Line> lines;
         Connection connection = CONNECTION_POOL.getConnection();
 
-        String query = "Select l.id, l.depot_id as depot_id, l.name, t.number as train_number, c.carriage_number as carriage_number \n" +
+        String query = "Select l.id as line_id, l.name as line_name, \n" +
+                "d.id as depot_id, d.address as depot_address, t.id as train_id, t.number as train_number, \n" +
+                "c.id as carriage_id, c.carriage_number, c.seat_capacity, c.manufacturer \n" +
                 "from `lines` l \n" +
-                "left join depots d on l.depot_id = d.id \n" +
-                "left join trains t on d.id = t.depot_id \n" +
-                "left join carriages c on t.id = c.train_id \n";
+                "inner join depots d on l.depot_id = d.id \n" +
+                "inner join trains t on d.id = t.depot_id \n" +
+                "inner join carriages c on t.id = c.train_id \n";
 
         try {
             PreparedStatement statement = connection.prepareStatement(query);

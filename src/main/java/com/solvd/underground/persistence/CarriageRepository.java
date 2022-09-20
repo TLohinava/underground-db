@@ -6,6 +6,8 @@ public interface CarriageRepository extends BaseRepository<Carriage> {
 
     void create(Carriage carriage, Long trainId);
 
-    void update(Carriage carriage, Long id, Long trainId);
+    void update(Carriage carriage, Long id);
+
+    Carriage findCarriage(Long trainId);
 
 }

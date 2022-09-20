@@ -55,9 +55,8 @@ public class StationRepositoryImpl implements StationRepository {
     public static List<Station> mapStations(ResultSet rs) throws SQLException {
         List<Station> stations = new ArrayList<>();
 
-        //while (rs.next()) {
-            stations = mapRow(rs, stations);
-        //}
+        stations = mapRow(rs, stations);
+
         return stations;
     }
 

@@ -21,9 +21,13 @@ public class CarriageServiceImpl implements CarriageService {
     }
 
     @Override
-    public Carriage update(Carriage carriage, Long id, Long trainId) {
-        carriageRepository.update(carriage, id, trainId);
-        return carriage;
+    public void update(Carriage carriage, Long id) {
+        carriageRepository.update(carriage, id);
+    }
+
+    @Override
+    public Carriage findCarriage(Long trainId) {
+        return carriageRepository.findCarriage(trainId);
     }
 
     @Override
