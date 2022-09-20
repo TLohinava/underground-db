@@ -6,4 +6,6 @@ public interface TrainRepository extends BaseRepository<Train> {
 
     void create(Train train, Long depotId);
 
+    void update(Train train, Long id, Long depotId);
+
 }

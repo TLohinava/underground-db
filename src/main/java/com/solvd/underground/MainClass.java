@@ -20,10 +20,10 @@ public class MainClass {
         Carriage carriage = new Carriage();
         carriage.setSeatCapacity(100);
         carriage.setManufacturer("Stadler");
-        carriage.setNumber(3497);
+        carriage.setNumber(9999);
 
         Station station = new Station();
-        station.setName("Hrushauka");
+        station.setName("R");
 
         Train train = new Train();
         train.setNumber(1233);
@@ -31,15 +31,16 @@ public class MainClass {
         train.setDrivers(List.of(driver));
 
         Depot depot = new Depot();
-        depot.setAddress("Fabriciusa, 24");
+        depot.setAddress("Moskovskaya, 5");
         depot.setTrains(List.of(train));
 
         Line line = new Line();
         line.setDepot(depot);
-        line.setName("sdfghjk");
+        line.setName("A");
         line.setStations(List.of(station));
 
         LineService lineService = new LineServiceImpl();
-        System.out.println(lineService.getAll().get(0).getDepot().getAddress());
+
+        lineService.getAll();
     }
 }

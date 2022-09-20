@@ -16,10 +16,6 @@ public class LineRepositoryImpl implements LineRepository {
 
     @Override
     public void create(Line line) {
-    }
-
-    @Override
-    public void create(Line line, Long depotId) {
         Connection connection = CONNECTION_POOL.getConnection();
         try (PreparedStatement statement = connection.prepareStatement("Insert into `lines`(depot_id, name) values(?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, line.getDepot().getId());
@@ -58,7 +54,7 @@ public class LineRepositoryImpl implements LineRepository {
             List<Station> stations = StationRepositoryImpl.mapStations(rs);
             line.setStations(stations);
 
-            line.setDepot(DepotRepositoryImpl.mapRow(rs));
+//            line.setDepot(DepotRepositoryImpl.mapRow(rs));
         }
         return lines;
     }
@@ -88,7 +84,7 @@ public class LineRepositoryImpl implements LineRepository {
     @Override
     public void update(Line line, Long id) {
         Connection connection = CONNECTION_POOL.getConnection();
-        try (PreparedStatement statement = connection.prepareStatement("Update lines set depot_id = ?, name = ? where id = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement("Update `lines` set depot_id = ?, name = ? where id = ?")) {
             statement.setLong(1, line.getDepot().getId());
             statement.setString(2, line.getName());
             statement.setLong(3, id);
@@ -103,7 +99,7 @@ public class LineRepositoryImpl implements LineRepository {
     @Override
     public void delete(Long id) {
         Connection connection = CONNECTION_POOL.getConnection();
-        try (PreparedStatement statement = connection.prepareStatement("Delete from lines where id = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement("Delete from `lines` where id = ?")) {
             statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {

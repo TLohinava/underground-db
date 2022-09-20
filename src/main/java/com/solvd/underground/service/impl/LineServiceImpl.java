@@ -21,9 +21,8 @@ public class LineServiceImpl implements LineService {
     }
 
     @Override
-    public Line create(Line line, Long depotId) {
+    public Line create(Line line) {
         line.setId(null);
-        lineRepository.create(line, depotId);
 
         if (line.getStations() != null) {
             List<Station> stations = line.getStations().stream()
@@ -36,6 +35,7 @@ public class LineServiceImpl implements LineService {
             Depot newDepot = depotService.create(line.getDepot());
             line.setDepot(newDepot);
         }
+        lineRepository.create(line);
         return line;
     }
 
@@ -45,7 +45,7 @@ public class LineServiceImpl implements LineService {
     }
 
     @Override
-    public void delete(int id) {
-        lineRepository.delete((long) id);
+    public void delete(Long id) {
+        lineRepository.delete(id);
     }
 }

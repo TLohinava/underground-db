@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface LineRepository extends BaseRepository<Line> {
 
-    void create(Line line, Long depotId);
-
-    List<Line> findAll();
+        List<Line> findAll();
 
 }

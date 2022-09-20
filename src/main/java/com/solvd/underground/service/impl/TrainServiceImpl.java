@@ -43,6 +43,13 @@ public class TrainServiceImpl implements TrainService {
         return train;
     }
 
+
+    @Override
+    public Train update(Train train, Long id, Long depotId) {
+        trainRepository.update(train, id, depotId);
+        return train;
+    }
+
     @Override
     public void delete(int id) {
         trainRepository.delete((long) id);

@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface LineService {
 
-    Line create(Line line, Long depotId);
+    Line create(Line line);
 
     List<Line> getAll();
 
-    void delete(int id);
+    void delete(Long id);
 
 }

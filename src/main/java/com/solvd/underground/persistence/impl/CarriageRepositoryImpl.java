@@ -72,9 +72,13 @@ public class CarriageRepositoryImpl implements CarriageRepository {
 
     @Override
     public void update(Carriage carriage, Long id) {
+    }
+
+    @Override
+    public void update(Carriage carriage, Long id, Long trainId) {
         Connection connection = CONNECTION_POOL.getConnection();
         try (PreparedStatement statement = connection.prepareStatement("Update carriages set train_id = ?, seat_capacity = ?, manufacturer = ?, carriage_number = ? where id = ?")) {
-//            statement.setLong(1, train.getId());
+            statement.setLong(1, trainId);
             statement.setInt(2, carriage.getSeatCapacity());
             statement.setString(3, carriage.getManufacturer());
             statement.setInt(4, carriage.getNumber());

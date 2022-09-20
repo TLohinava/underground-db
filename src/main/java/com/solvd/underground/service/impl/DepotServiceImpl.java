@@ -33,6 +33,11 @@ public class DepotServiceImpl implements DepotService {
     }
 
     @Override
+    public Depot read(Long id) {
+        return depotRepository.read(id);
+    }
+
+    @Override
     public void delete(int id) {
         depotRepository.delete((long) id);
     }

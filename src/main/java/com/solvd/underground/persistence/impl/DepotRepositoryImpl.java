@@ -1,6 +1,7 @@
 package com.solvd.underground.persistence.impl;
 
 import com.solvd.underground.domain.structure.Depot;
+import com.solvd.underground.domain.structure.Line;
 import com.solvd.underground.persistence.*;
 
 import java.sql.*;
@@ -27,24 +28,20 @@ public class DepotRepositoryImpl implements DepotRepository {
         }
     }
 
-    private static Depot getById(Long id, List<Depot> depots) {
-        return depots.stream()
-                .filter(depot -> depot.getId().equals(id))
-                .findFirst()
-                .orElseGet(() -> {
-                    Depot depot = new Depot();
-                    depot.setId(id);
-                    depots.add(depot);
-                    return depot;
-                });
-    }
-
-    public static Depot mapRow(ResultSet rs) throws SQLException {
+    public Depot read(Long id) {
+        Connection connection = CONNECTION_POOL.getConnection();
         Depot depot = new Depot();
-        while (rs.next()) {
-            depot.setId(rs.getLong("id"));
-            depot.setAddress(rs.getString("address"));
-            depot.setTrains(TrainRepositoryImpl.mapTrains(rs));
+        try (PreparedStatement statement = connection.prepareStatement("select address from depots where id = ?", Statement.RETURN_GENERATED_KEYS)) {
+            statement.setLong(1, id);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                depot.setId(id);
+                depot.setAddress(rs.getString("address"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CONNECTION_POOL.releaseConnection(connection);
         }
         return depot;
     }

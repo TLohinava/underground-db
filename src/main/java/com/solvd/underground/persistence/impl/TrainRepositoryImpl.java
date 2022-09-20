@@ -69,10 +69,15 @@ public class TrainRepositoryImpl implements TrainRepository {
     }
 
     @Override
-    public void update(Train train, Long id) {
+    public void update(Train train, Long depotId) {
+
+    }
+
+    @Override
+    public void update(Train train, Long id, Long depotId) {
         Connection connection = CONNECTION_POOL.getConnection();
         try (PreparedStatement statement = connection.prepareStatement("Update trains set depot_id = ?, number = ? where id = ?")) {
-            statement.setLong(1, 2);
+            statement.setLong(1, depotId);
             statement.setLong(2, train.getNumber());
             statement.setLong(3, id);
             statement.executeUpdate();
