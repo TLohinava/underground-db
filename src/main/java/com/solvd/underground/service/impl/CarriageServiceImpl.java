@@ -1,5 +1,6 @@
 package com.solvd.underground.service.impl;
 
+import com.solvd.underground.domain.exception.QueryException;
 import com.solvd.underground.domain.rollingstock.Carriage;
 import com.solvd.underground.persistence.CarriageRepository;
 import com.solvd.underground.persistence.impl.CarriageRepositoryImpl;
@@ -21,13 +22,18 @@ public class CarriageServiceImpl implements CarriageService {
     }
 
     @Override
+    public void create(Carriage carriage) {
+        carriageRepository.create(carriage);
+    }
+
+    @Override
     public void update(Carriage carriage, Long id) {
         carriageRepository.update(carriage, id);
     }
 
     @Override
     public Carriage findCarriage(Long trainId) {
-        return carriageRepository.findCarriage(trainId);
+        return carriageRepository.findCarriage(trainId).orElseThrow(() -> new QueryException("Carriages not found."));
     }
 
     @Override

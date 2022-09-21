@@ -1,11 +1,11 @@
 package com.solvd.underground.persistence.impl;
 
+import com.solvd.underground.domain.exception.ConnectionException;
 import com.solvd.underground.domain.structure.Depot;
 import com.solvd.underground.persistence.*;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class DepotRepositoryImpl implements DepotRepository {
 
@@ -22,7 +22,7 @@ public class DepotRepositoryImpl implements DepotRepository {
                 depot.setId(rs.getLong(1));
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error with the creation: " + e);
+            throw new ConnectionException("ConnectionException in depots: creation failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
@@ -64,8 +64,7 @@ public class DepotRepositoryImpl implements DepotRepository {
                 "left join trains t on d.id = t.depot_id \n" +
                 "left join carriages c on t.id = c.train_id \n";
 
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             ResultSet set = statement.executeQuery();
             List<Depot> depots = new ArrayList<>();
             depot = new Depot();
@@ -78,7 +77,7 @@ public class DepotRepositoryImpl implements DepotRepository {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException("ConnectionException in depots: reading failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
@@ -93,7 +92,7 @@ public class DepotRepositoryImpl implements DepotRepository {
             statement.setLong(2, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException("ConnectionException in depots: update failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
@@ -106,7 +105,7 @@ public class DepotRepositoryImpl implements DepotRepository {
             statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException("ConnectionException in depots: deletion failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }

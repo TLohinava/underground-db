@@ -1,5 +1,6 @@
 package com.solvd.underground.service.impl;
 
+import com.solvd.underground.domain.exception.QueryException;
 import com.solvd.underground.domain.rollingstock.*;
 import com.solvd.underground.persistence.TrainRepository;
 import com.solvd.underground.persistence.impl.TrainRepositoryImpl;
@@ -35,7 +36,7 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     public Train findTrain() {
-        return trainRepository.findTrain();
+        return trainRepository.findTrain().orElseThrow(() -> new QueryException("No trains found."));
     }
 
     @Override

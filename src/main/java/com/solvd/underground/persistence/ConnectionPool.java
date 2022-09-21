@@ -1,11 +1,9 @@
 package com.solvd.underground.persistence;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
+import com.solvd.underground.domain.exception.ConnectionException;
+
+import java.sql.*;
+import java.util.concurrent.*;
 
 public class ConnectionPool {
 
@@ -24,7 +22,7 @@ public class ConnectionPool {
             Class.forName(Config.getValue("driver"));
             return DriverManager.getConnection(Config.getValue("url"), Config.getValue("username"), Config.getValue("password"));
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException("Unable to create connection." + e);
         }
     }
 
@@ -32,7 +30,7 @@ public class ConnectionPool {
         try {
             return connections.poll(10, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException("Unable to get connection." + e);
         }
     }
 

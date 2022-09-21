@@ -1,12 +1,11 @@
 package com.solvd.underground.persistence.impl;
 
+import com.solvd.underground.domain.exception.ConnectionException;
 import com.solvd.underground.domain.structure.Line;
-import com.solvd.underground.persistence.ConnectionPool;
-import com.solvd.underground.persistence.LineRepository;
+import com.solvd.underground.persistence.*;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class LineRepositoryImpl implements LineRepository {
 
@@ -24,7 +23,7 @@ public class LineRepositoryImpl implements LineRepository {
                 line.setId(rs.getLong(1));
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error with the creation: " + e);
+            throw new ConnectionException("ConnectionException in lines: creation failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
@@ -54,6 +53,7 @@ public class LineRepositoryImpl implements LineRepository {
         return lines;
     }
 
+    @Override
     public List<Line> findAll() {
         List<Line> lines;
         Connection connection = CONNECTION_POOL.getConnection();
@@ -71,7 +71,7 @@ public class LineRepositoryImpl implements LineRepository {
             ResultSet set = statement.executeQuery();
             lines = mapLines(set);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException("ConnectionException in lines: reading failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
@@ -87,7 +87,7 @@ public class LineRepositoryImpl implements LineRepository {
             statement.setLong(3, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException("ConnectionException in lines: update failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
@@ -100,7 +100,7 @@ public class LineRepositoryImpl implements LineRepository {
             statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException("ConnectionException in lines: deletion failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }

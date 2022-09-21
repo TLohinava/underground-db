@@ -1,11 +1,11 @@
 package com.solvd.underground.persistence.impl;
 
+import com.solvd.underground.domain.exception.ConnectionException;
 import com.solvd.underground.domain.structure.Station;
 import com.solvd.underground.persistence.*;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class StationRepositoryImpl implements StationRepository {
 
@@ -22,7 +22,7 @@ public class StationRepositoryImpl implements StationRepository {
                 station.setId(rs.getLong(1));
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error with the creation: " + e);
+            throw new ConnectionException("ConnectionException in stations: creation failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
@@ -68,7 +68,7 @@ public class StationRepositoryImpl implements StationRepository {
             statement.setLong(2, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error with the update: " + e);
+            throw new ConnectionException("ConnectionException in stations: update failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
@@ -81,7 +81,7 @@ public class StationRepositoryImpl implements StationRepository {
             statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error with the update: " + e);
+            throw new ConnectionException("ConnectionException in stations: deletion failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }

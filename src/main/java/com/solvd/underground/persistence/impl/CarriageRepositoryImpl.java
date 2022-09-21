@@ -1,11 +1,11 @@
 package com.solvd.underground.persistence.impl;
 
+import com.solvd.underground.domain.exception.ConnectionException;
 import com.solvd.underground.domain.rollingstock.Carriage;
 import com.solvd.underground.persistence.*;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CarriageRepositoryImpl implements CarriageRepository {
 
@@ -13,6 +13,7 @@ public class CarriageRepositoryImpl implements CarriageRepository {
 
     @Override
     public void create(Carriage carriage) {
+        throw new UnsupportedOperationException("This operation is not supported with the given amount of arguments");
     }
 
     @Override
@@ -29,7 +30,7 @@ public class CarriageRepositoryImpl implements CarriageRepository {
                 carriage.setId(rs.getLong(1));
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error with the creation: " + e);
+            throw new ConnectionException("ConnectionException in carriages: creation failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
@@ -69,8 +70,8 @@ public class CarriageRepositoryImpl implements CarriageRepository {
         return carriages;
     }
 
-    public Carriage findCarriage(Long trainId) {
-        Carriage carriage;
+    public Optional<Carriage> findCarriage(Long trainId) {
+        Optional<Carriage> carriage;
         Connection connection = CONNECTION_POOL.getConnection();
 
         String query = "Select c.id as carriage_id, c.seat_capacity, c.carriage_number, c.manufacturer from carriages c where train_id = ?";
@@ -82,10 +83,10 @@ public class CarriageRepositoryImpl implements CarriageRepository {
 
             List<Carriage> carriages = mapCarriages(set);
             carriage = carriages.stream()
-                    .findFirst()
-                    .orElseThrow(() -> new RuntimeException("Bazinga"));
+                    .findFirst();
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException("ConnectionException in carriages: reading failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
@@ -102,7 +103,7 @@ public class CarriageRepositoryImpl implements CarriageRepository {
             statement.setLong(4, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException("ConnectionException in carriages: update failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
@@ -115,7 +116,7 @@ public class CarriageRepositoryImpl implements CarriageRepository {
             statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException("ConnectionException in carriages: deletion failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }

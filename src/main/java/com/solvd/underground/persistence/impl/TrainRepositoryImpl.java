@@ -1,11 +1,11 @@
 package com.solvd.underground.persistence.impl;
 
+import com.solvd.underground.domain.exception.ConnectionException;
 import com.solvd.underground.domain.rollingstock.Train;
 import com.solvd.underground.persistence.*;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TrainRepositoryImpl implements TrainRepository {
 
@@ -13,6 +13,7 @@ public class TrainRepositoryImpl implements TrainRepository {
 
     @Override
     public void create(Train train) {
+        throw new UnsupportedOperationException("This operation is not supported with the given amount of arguments");
     }
 
     @Override
@@ -27,7 +28,7 @@ public class TrainRepositoryImpl implements TrainRepository {
                 train.setId(rs.getLong(1));
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error with the creation: " + e);
+            throw new ConnectionException("ConnectionException in trains: creation failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
@@ -63,25 +64,24 @@ public class TrainRepositoryImpl implements TrainRepository {
         return mapRow(rs, trains);
     }
 
-    public Train findTrain() {
-        Train train;
+    public Optional<Train> findTrain() {
+        Optional<Train> train = Optional.empty();
         Connection connection = CONNECTION_POOL.getConnection();
 
-        String query = "Select t.id as train_id, t.number as train_number from  trains t";
+        String query = "Select t.id as train_id, t.number as train_number, \n" +
+                "c.id as carriage_id, c.carriage_number, c.manufacturer, c.seat_capacity from  trains t \n" +
+                "left join carriages c on c.train_id = t.id";
 
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             ResultSet set = statement.executeQuery();
-            List<Train> trains = new ArrayList<>();
-            train = new Train();
             while (set.next()) {
-                Long trainId = set.getLong("train_id");
-                train = getById(trainId, trains);
-                train.setId(trainId);
-                train.setNumber(set.getInt("train_number"));
+                List<Train> trains = mapTrains(set);
+                train = trains.stream()
+                        .findFirst();
             }
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException("ConnectionException in trains: reading failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
@@ -90,7 +90,7 @@ public class TrainRepositoryImpl implements TrainRepository {
 
     @Override
     public void update(Train train, Long depotId) {
-
+        throw new UnsupportedOperationException("This operation is not supported with the given amount of arguments");
     }
 
     @Override
@@ -102,7 +102,7 @@ public class TrainRepositoryImpl implements TrainRepository {
             statement.setLong(3, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException("ConnectionException in trains: update failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
@@ -115,7 +115,7 @@ public class TrainRepositoryImpl implements TrainRepository {
             statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException("ConnectionException in trains: deletion failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
