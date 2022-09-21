@@ -1,6 +1,6 @@
-package com.solvd.underground.structure;
+package com.solvd.underground.domain.structure;
 
-import com.solvd.underground.employee.Cashier;
+import com.solvd.underground.domain.employee.Cashier;
 
 import java.util.List;
 

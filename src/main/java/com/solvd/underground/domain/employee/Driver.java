@@ -1,4 +1,4 @@
-package com.solvd.underground.employee;
+package com.solvd.underground.domain.employee;
 
 import java.time.LocalDate;
 

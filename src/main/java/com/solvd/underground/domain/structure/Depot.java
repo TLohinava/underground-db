@@ -1,6 +1,6 @@
-package com.solvd.underground.structure;
+package com.solvd.underground.domain.structure;
 
-import com.solvd.underground.rollingstock.Train;
+import com.solvd.underground.domain.rollingstock.Train;
 
 import java.util.List;
 

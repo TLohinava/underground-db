@@ -1,6 +1,6 @@
-package com.solvd.underground.rollingstock;
+package com.solvd.underground.domain.rollingstock;
 
-import com.solvd.underground.employee.Driver;
+import com.solvd.underground.domain.employee.Driver;
 
 import java.util.List;
 
