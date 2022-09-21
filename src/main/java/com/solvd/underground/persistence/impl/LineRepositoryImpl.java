@@ -1,6 +1,7 @@
 package com.solvd.underground.persistence.impl;
 
 import com.solvd.underground.domain.exception.ConnectionException;
+import com.solvd.underground.domain.exception.QueryException;
 import com.solvd.underground.domain.structure.Line;
 import com.solvd.underground.persistence.*;
 
@@ -73,6 +74,9 @@ public class LineRepositoryImpl implements LineRepository {
             throw new ConnectionException("ConnectionException in lines: reading failed." + e);
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
+        }
+        if (lines.size() == 0) {
+            throw new QueryException("No lines available.");
         }
         return lines;
     }
