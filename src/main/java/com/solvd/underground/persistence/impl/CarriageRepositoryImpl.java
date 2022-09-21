@@ -76,8 +76,7 @@ public class CarriageRepositoryImpl implements CarriageRepository {
 
         String query = "Select c.id as carriage_id, c.seat_capacity, c.carriage_number, c.manufacturer from carriages c where train_id = ?";
 
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try (PreparedStatement statement = connection.prepareStatement(query)){
             statement.setLong(1, trainId);
             ResultSet set = statement.executeQuery();
 

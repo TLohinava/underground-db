@@ -23,7 +23,7 @@ public class MainClass {
         carriage.setNumber(6655);
 
         Station station = new Station();
-        station.setName("Niamiha");
+        station.setName("Mogilevskaya");
 
         Train train = new Train();
         train.setNumber(5566);
@@ -41,17 +41,5 @@ public class MainClass {
 
         LineService ls = new LineServiceImpl();
         ls.create(line);
-        Line oneLine = ls.getAll().stream()
-                .findAny()
-                .orElseThrow(() -> new RuntimeException("Meep"));
-        ls.delete(oneLine.getId());
-
-        DepotService ds = new DepotServiceImpl();
-        ds.findDepot();
-        TrainService ts = new TrainServiceImpl();
-        ts.create(train, ds.findDepot().getId());
-        CarriageService cs = new CarriageServiceImpl();
-        Carriage c = cs.findCarriage(ts.findTrain().getId());
-        cs.create(carriage, ts.findTrain().getId());
     }
 }

@@ -66,8 +66,7 @@ public class LineRepositoryImpl implements LineRepository {
                 "inner join trains t on d.id = t.depot_id \n" +
                 "inner join carriages c on t.id = c.train_id \n";
 
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try (PreparedStatement statement = connection.prepareStatement(query)){
             ResultSet set = statement.executeQuery();
             lines = mapLines(set);
         } catch (SQLException e) {
