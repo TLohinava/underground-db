@@ -1,4 +1,4 @@
-package com.solvd.underground.rollingstock;
+package com.solvd.underground.domain.rollingstock;
 
 public class Carriage {
 
