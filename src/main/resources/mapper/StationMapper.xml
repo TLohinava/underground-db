@@ -7,6 +7,14 @@
         select id as station_id, name as station_name from stations where id = #{id};
     </select>
 
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into stations (name) values (#{name});
+    </insert>
+
+    <update id="update">
+        update stations set name = #{name} where id = #{id};
+    </update>
+
     <delete id="delete" parameterType="Long">
         delete from stations where id = #{id};
     </delete>

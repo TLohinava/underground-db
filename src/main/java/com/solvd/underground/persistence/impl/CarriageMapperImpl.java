@@ -5,18 +5,11 @@ import com.solvd.underground.persistence.CarriageRepository;
 import com.solvd.underground.persistence.MyBatisConfig;
 import org.apache.ibatis.session.SqlSession;
 
-import java.util.List;
-
 public class CarriageMapperImpl implements CarriageRepository {
 
     @Override
     public void create(Carriage carriage) {
 
-    }
-
-    @Override
-    public List<Carriage> readAll() {
-        return null;
     }
 
     @Override

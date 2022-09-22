@@ -4,10 +4,15 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.solvd.underground.persistence.CarriageRepository">
     <select id="read" resultMap="CarriageResultMap">
-        select id as carriage_id, manufacturer, seat_capacity, carriage_number from carriages where id = #{id} ;
+        select c.id as carriage_id, c.train_id, c.manufacturer, c.seat_capacity, c.carriage_number from carriages c
+        left join trains t on c.train_id = t.id where c.id = #{id} ;
     </select>
 
-    <delete id="delete" parameterType="Long">
+    <insert id="create" useGeneratedKeys="true" keyProperty="carriage.id" keyColumn="id">
+        insert into carriages (manufacturer, seat_capacity, carriage_number) values (#{manufacturer}, #{seatCapacity}, #{carriageNumber});
+    </insert>
+
+    <delete id="delete">
         delete from carriages where id = #{id};
     </delete>
 
