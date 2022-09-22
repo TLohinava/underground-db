@@ -1,18 +1,42 @@
 package com.solvd.underground.persistence.impl;
 
 import com.solvd.underground.domain.rollingstock.Carriage;
+import com.solvd.underground.persistence.CarriageRepository;
+import com.solvd.underground.persistence.MyBatisConfig;
+import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
 
-public interface CarriageMapperImpl {
+public class CarriageMapperImpl implements CarriageRepository {
 
-    Carriage create();
+    @Override
+    public void create(Carriage carriage) {
 
-    Carriage read(Long id);
+    }
 
-    List<Carriage> readAll();
+    @Override
+    public List<Carriage> readAll() {
+        return null;
+    }
 
-    void update(Carriage carriage, Long id);
+    @Override
+    public Carriage read(Long id) {
+        try (SqlSession session = MyBatisConfig.getSqlSessionFactory().openSession(true)) {
+            CarriageRepository mapper = session.getMapper(CarriageRepository.class);
+            return mapper.read(id);
+        }
+    }
 
-    void delete(Long id);
+    @Override
+    public void update(Carriage carriage, Long id) {
+
+    }
+
+    @Override
+    public void delete(Long id) {
+        try (SqlSession session = MyBatisConfig.getSqlSessionFactory().openSession(true)) {
+            CarriageRepository mapper = session.getMapper(CarriageRepository.class);
+            mapper.delete(id);
+        }
+    }
 }

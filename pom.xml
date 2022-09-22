@@ -10,6 +10,7 @@
 
     <properties>
         <mybatis-version>3.5.11</mybatis-version>
+        <mysql-connector-version>8.0.30</mysql-connector-version>
     </properties>
 
     <dependencies>
@@ -17,6 +18,11 @@
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
             <version>${mybatis-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector-version}</version>
         </dependency>
     </dependencies>
 

@@ -7,6 +7,7 @@ import java.util.List;
 public class Train {
 
     private Long id;
+    private Integer number;
     private List<Driver> drivers;
     private List<Carriage> carriages;
 
@@ -16,6 +17,14 @@ public class Train {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public List<Driver> getDrivers() {

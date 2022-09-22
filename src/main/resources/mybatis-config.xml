@@ -17,10 +17,10 @@
         </environment>
     </environments>
     <mappers>
-        <mapper class="com.solvd.underground.persistence.impl.CarriageMapperImpl"/>
-<!--        <mapper resource="src/main/resources/mapper/DepotMapper.xml"/>-->
-<!--        <mapper resource="src/main/resources/mapper/LineMapper.xml"/>-->
-<!--        <mapper resource="src/main/resources/mapper/StationMapper.xml"/>-->
-<!--        <mapper resource="src/main/resources/mapper/TrainMapper.xml"/>-->
+        <mapper resource="mapper/CarriageMapper.xml"/>
+        <mapper resource="mapper/DepotMapper.xml"/>
+        <mapper resource="mapper/LineMapper.xml"/>
+        <mapper resource="mapper/StationMapper.xml"/>
+        <mapper resource="mapper/TrainMapper.xml"/>
     </mappers>
 </configuration>

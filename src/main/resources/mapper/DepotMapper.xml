@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solvd.underground.persistence.DepotRepository">
+    <select id="read" resultMap="DepotResultMap">
+        select id as depot_id, address as depot_address from depots where id = #{id};
+    </select>
+
+    <delete id="delete" parameterType="Long">
+        delete from depots where id = #{id};
+    </delete>
+
+    <resultMap id="DepotResultMap" type="com.solvd.underground.domain.structure.Depot" autoMapping="false">
+        <id property="id" column="depot_id" />
+        <result property="address" column="depot_address"/>
+    </resultMap>
+</mapper>
