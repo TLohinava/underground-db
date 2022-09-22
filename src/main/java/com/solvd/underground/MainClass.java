@@ -41,5 +41,8 @@ public class MainClass {
 
         LineService ls = new LineServiceImpl();
         ls.create(line);
+
+        List<Line> lines = ls.getAll();
+        System.out.println();
     }
 }

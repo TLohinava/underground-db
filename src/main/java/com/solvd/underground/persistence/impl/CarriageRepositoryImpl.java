@@ -1,6 +1,7 @@
 package com.solvd.underground.persistence.impl;
 
 import com.solvd.underground.domain.exception.ConnectionException;
+import com.solvd.underground.domain.exception.UnsupportedOperationException;
 import com.solvd.underground.domain.rollingstock.Carriage;
 import com.solvd.underground.persistence.*;
 
