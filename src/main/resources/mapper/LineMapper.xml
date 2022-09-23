@@ -4,8 +4,13 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.solvd.underground.persistence.LineRepository">
     <select id="read" resultMap="LineResultMap">
-        select id as line_id, name as line_name from `lines` where id = #{id};
+        select l.id as line_id, l.depot_id, l.name as line_name from `lines` l
+        left join depots d on l.depot_id = d.id where l.id = #{id};
     </select>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        insert into `lines` (depot_id, name) values (#{depot.id}, #{name});
+    </insert>
 
     <delete id="delete" parameterType="Long">
         delete from `lines` where id = #{id};
@@ -14,5 +19,7 @@
     <resultMap id="LineResultMap" type="com.solvd.underground.domain.structure.Line" autoMapping="false">
         <id property="id" column="line_id" />
         <result property="name" column="line_name"/>
+        <association property="depot" resultMap="com.solvd.underground.persistence.DepotRepository.DepotResultMap"/>
+        <collection property="stations" resultMap="com.solvd.underground.persistence.StationRepository.StationResultMap"/>
     </resultMap>
 </mapper>

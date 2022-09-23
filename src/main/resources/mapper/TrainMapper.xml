@@ -4,8 +4,20 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.solvd.underground.persistence.TrainRepository">
     <select id="read" resultMap="TrainResultMap">
-        select id as train_id, `number` as train_number from trains where id = #{id} ;
+        select t.id as train_id, t.depot_id, t.`number` as train_number from trains t
+        left join depots d on t.depot_id = d.id where t.id = #{id} ;
     </select>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="train.id" keyColumn="id">
+        insert into trains (depot_id, `number`) values (#{depotId}, #{train.number});
+    </insert>
+
+    <update id="update">
+        update trains
+        set depot_id = #{depotId},
+        `number` = #{train.number}
+        where id = #{id}
+    </update>
 
     <delete id="delete" parameterType="Long">
         delete from trains where id = #{id};
@@ -14,5 +26,6 @@
     <resultMap id="TrainResultMap" type="com.solvd.underground.domain.rollingstock.Train" autoMapping="false">
         <id property="id" column="train_id" />
         <result property="number" column="train_number"/>
+        <collection property="carriages" ofType="Carriage" resultMap="com.solvd.underground.persistence.CarriageRepository.CarriageResultMap"/>
     </resultMap>
 </mapper>

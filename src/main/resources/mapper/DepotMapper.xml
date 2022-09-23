@@ -9,6 +9,7 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
         insert into depots (id, address) values (#{id}, #{address});
+        insert into `lines` (depot_id) values (#{id});
     </insert>
 
     <update id="update">

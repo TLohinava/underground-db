@@ -8,8 +8,11 @@ import org.apache.ibatis.session.SqlSession;
 public class CarriageMapperImpl implements CarriageRepository {
 
     @Override
-    public void create(Carriage carriage) {
-
+    public void create(Carriage carriage, Long trainId) {
+        try (SqlSession session = MyBatisConfig.getSqlSessionFactory().openSession(true)) {
+            CarriageRepository mapper = session.getMapper(CarriageRepository.class);
+            mapper.create(carriage, trainId);
+        }
     }
 
     @Override
@@ -22,7 +25,10 @@ public class CarriageMapperImpl implements CarriageRepository {
 
     @Override
     public void update(Carriage carriage, Long id) {
-
+        try (SqlSession session = MyBatisConfig.getSqlSessionFactory().openSession(true)) {
+            CarriageRepository mapper = session.getMapper(CarriageRepository.class);
+            mapper.update(carriage, id);
+        }
     }
 
     @Override

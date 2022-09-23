@@ -5,13 +5,14 @@ import com.solvd.underground.persistence.MyBatisConfig;
 import com.solvd.underground.persistence.TrainRepository;
 import org.apache.ibatis.session.SqlSession;
 
-import java.util.List;
-
 public class TrainMapperImpl implements TrainRepository {
 
     @Override
-    public void create(Train train) {
-
+    public void create(Train train, Long depotId) {
+        try (SqlSession session = MyBatisConfig.getSqlSessionFactory().openSession(true)) {
+            TrainRepository mapper = session.getMapper(TrainRepository.class);
+            mapper.create(train, depotId);
+        }
     }
 
     @Override
@@ -23,13 +24,11 @@ public class TrainMapperImpl implements TrainRepository {
     }
 
     @Override
-    public List<Train> readAll() {
-        return null;
-    }
-
-    @Override
-    public void update(Train train, Long id) {
-
+    public void update(Train train, Long id, Long depotId) {
+        try (SqlSession session = MyBatisConfig.getSqlSessionFactory().openSession(true)) {
+            TrainRepository mapper = session.getMapper(TrainRepository.class);
+            mapper.update(train, id, depotId);
+        }
     }
 
     @Override

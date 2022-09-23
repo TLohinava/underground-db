@@ -9,8 +9,17 @@
     </select>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="carriage.id" keyColumn="id">
-        insert into carriages (manufacturer, seat_capacity, carriage_number) values (#{manufacturer}, #{seatCapacity}, #{carriageNumber});
+        insert into carriages (train_id, manufacturer, seat_capacity, carriage_number)
+        values (#{trainId}, #{carriage.manufacturer}, #{carriage.seatCapacity}, #{carriage.number});
     </insert>
+
+    <update id="update" keyProperty="carriage.id" keyColumn="id">
+        update carriages
+        set manufacturer = #{carriage.manufacturer},
+        seat_capacity = #{carriage.seatCapacity},
+        carriage_number = #{carriage.number}
+        where id = #{id}
+    </update>
 
     <delete id="delete">
         delete from carriages where id = #{id};

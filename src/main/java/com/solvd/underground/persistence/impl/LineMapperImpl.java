@@ -11,7 +11,10 @@ public class LineMapperImpl implements LineRepository {
 
     @Override
     public void create(Line line) {
-
+        try (SqlSession session = MyBatisConfig.getSqlSessionFactory().openSession(true)) {
+            LineRepository mapper = session.getMapper(LineRepository.class);
+            mapper.create(line);
+        }
     }
 
     @Override
