@@ -33,7 +33,8 @@ public class CarriageServiceImpl implements CarriageService {
 
     @Override
     public Carriage findCarriage(Long trainId) {
-        return carriageRepository.findCarriage(trainId).orElseThrow(() -> new QueryException("Carriages not found."));
+        return carriageRepository.findCarriage(trainId)
+                .orElseThrow(() -> new QueryException("Carriages not found."));
     }
 
     @Override

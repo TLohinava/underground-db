@@ -36,7 +36,8 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     public Train findTrain() {
-        return trainRepository.findTrain().orElseThrow(() -> new QueryException("No trains found."));
+        return trainRepository.findTrain()
+                .orElseThrow(() -> new QueryException("No trains found."));
     }
 
     @Override
