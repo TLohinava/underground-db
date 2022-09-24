@@ -3,7 +3,7 @@ package com.solvd.underground;
 import com.solvd.underground.domain.rollingstock.*;
 import com.solvd.underground.domain.structure.*;
 import com.solvd.underground.persistence.*;
-import com.solvd.underground.persistence.impl.*;
+import com.solvd.underground.persistence.impl.mybatis.*;
 
 import java.util.List;
 
@@ -11,15 +11,15 @@ public class MainClass {
 
     public static void main(String[] args) {
         Carriage carriage = new Carriage();
-        carriage.setSeatCapacity(10);
+        carriage.setSeatCapacity(100);
         carriage.setManufacturer("Stadler");
-        carriage.setNumber(1111);
+        carriage.setNumber(6655);
 
         Station station = new Station();
-        station.setName("KGorka");
+        station.setName("Mogilevskaya");
 
         Train train = new Train();
-        train.setNumber(1066);
+        train.setNumber(5566);
         train.setCarriages(List.of(carriage));
 
         Depot depot = new Depot();

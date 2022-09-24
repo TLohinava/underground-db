@@ -1,4 +1,4 @@
-package com.solvd.underground.persistence.impl;
+package com.solvd.underground.persistence.impl.mybatis;
 
 import com.solvd.underground.domain.structure.Station;
 import com.solvd.underground.persistence.MyBatisConfig;

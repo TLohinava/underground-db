@@ -1,5 +1,6 @@
-package com.solvd.underground.persistence.impl;
+package com.solvd.underground.persistence.impl.mybatis;
 
+import com.solvd.underground.domain.exception.UnsupportedOperationException;
 import com.solvd.underground.domain.rollingstock.Carriage;
 import com.solvd.underground.persistence.CarriageRepository;
 import com.solvd.underground.persistence.MyBatisConfig;
@@ -8,6 +9,11 @@ import org.apache.ibatis.session.SqlSession;
 import java.util.Optional;
 
 public class CarriageMapperImpl implements CarriageRepository {
+
+    @Override
+    public void create(Carriage carriage) {
+        throw new UnsupportedOperationException("This operation is not supported with the given amount of arguments");
+    }
 
     @Override
     public void create(Carriage carriage, Long trainId) {
