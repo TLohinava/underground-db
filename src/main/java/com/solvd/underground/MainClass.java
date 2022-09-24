@@ -31,15 +31,14 @@ public class MainClass {
         line.setName("Autozavodskaya");
         line.setStations(List.of(station));
 
-//        CarriageRepository cm = new CarriageMapperImpl();
+        CarriageRepository cm = new CarriageMapperImpl();
 
         DepotRepository dr = new DepotMapperImpl();
 
         LineRepository lr = new LineMapperImpl();
 
-//        StationRepository sr = new StationMapperImpl();
+        StationRepository sr = new StationMapperImpl();
 
         TrainRepository tr = new TrainMapperImpl();
-        System.out.println(tr.read(1l).getCarriages().size());
     }
 }

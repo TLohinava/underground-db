@@ -3,8 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.solvd.underground.persistence.CarriageRepository">
+    <sql id="carriageColumns">
+        c.id as carriage_id, c.train_id, c.manufacturer, c.seat_capacity, c.carriage_number
+    </sql>
+
     <select id="read" resultMap="CarriageResultMap">
-        select c.id as carriage_id, c.train_id, c.manufacturer, c.seat_capacity, c.carriage_number from carriages c
+        select <include refid="carriageColumns" /> from carriages c
         left join trains t on c.train_id = t.id where c.id = #{id} ;
     </select>
 
@@ -13,7 +17,7 @@
         values (#{trainId}, #{carriage.manufacturer}, #{carriage.seatCapacity}, #{carriage.number});
     </insert>
 
-    <update id="update" keyProperty="carriage.id" keyColumn="id">
+    <update id="update">
         update carriages
         set manufacturer = #{carriage.manufacturer},
         seat_capacity = #{carriage.seatCapacity},
