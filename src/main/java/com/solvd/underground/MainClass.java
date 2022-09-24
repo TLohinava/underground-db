@@ -36,6 +36,7 @@ public class MainClass {
         DepotRepository dr = new DepotMapperImpl();
 
         LineRepository lr = new LineMapperImpl();
+        lr.readAll().forEach(l -> System.out.println(l.getName()));
 
         StationRepository sr = new StationMapperImpl();
 

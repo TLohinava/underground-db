@@ -12,14 +12,22 @@
         <include refid="com.solvd.underground.persistence.DepotRepository.depotTrainColumns" />
     </sql>
 
-    <select id="read" resultMap="LineResultMap">
+    <sql id="readLines">
         select
         <include refid="com.solvd.underground.persistence.LineRepository.lineDepotColumns" />
         from `lines` l
         left join depots d on l.depot_id = d.id
         left join trains t on d.id = t.depot_id
         left join carriages c on t.id = c.train_id
+    </sql>
+
+    <select id="read" resultMap="LineResultMap">
+        <include refid="com.solvd.underground.persistence.LineRepository.readLines" />
         where l.id = #{id};
+    </select>
+
+    <select id="readAll" resultMap="LineResultMap">
+        <include refid="com.solvd.underground.persistence.LineRepository.readLines" />
     </select>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
@@ -39,6 +47,6 @@
         <id property="id" column="line_id" />
         <result property="name" column="line_name"/>
         <association property="depot" resultMap="com.solvd.underground.persistence.DepotRepository.DepotResultMap"/>
-        <collection property="stations" resultMap="com.solvd.underground.persistence.StationRepository.StationResultMap"/>
+        <collection property="stations" ofType="Station" resultMap="com.solvd.underground.persistence.StationRepository.StationResultMap"/>
     </resultMap>
 </mapper>

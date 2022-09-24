@@ -5,6 +5,8 @@ import com.solvd.underground.persistence.CarriageRepository;
 import com.solvd.underground.persistence.MyBatisConfig;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.Optional;
+
 public class CarriageMapperImpl implements CarriageRepository {
 
     @Override
@@ -16,7 +18,7 @@ public class CarriageMapperImpl implements CarriageRepository {
     }
 
     @Override
-    public Carriage read(Long id) {
+    public Optional<Carriage> read(Long id) {
         try (SqlSession session = MyBatisConfig.getSqlSessionFactory().openSession(true)) {
             CarriageRepository mapper = session.getMapper(CarriageRepository.class);
             return mapper.read(id);

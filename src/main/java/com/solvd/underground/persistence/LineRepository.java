@@ -4,12 +4,13 @@ import com.solvd.underground.domain.structure.Line;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LineRepository {
 
     void create(Line line);
 
-    Line read(Long id);
+    Optional<Line> read(Long id);
 
     List<Line> readAll();
 

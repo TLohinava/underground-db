@@ -5,6 +5,8 @@ import com.solvd.underground.persistence.DepotRepository;
 import com.solvd.underground.persistence.MyBatisConfig;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.Optional;
+
 public class DepotMapperImpl implements DepotRepository {
     @Override
     public void create(Depot depot) {
@@ -15,7 +17,7 @@ public class DepotMapperImpl implements DepotRepository {
     }
 
     @Override
-    public Depot read(Long id) {
+    public Optional<Depot> read(Long id) {
         try (SqlSession session = MyBatisConfig.getSqlSessionFactory().openSession(true)) {
             DepotRepository mapper = session.getMapper(DepotRepository.class);
             return mapper.read(id);

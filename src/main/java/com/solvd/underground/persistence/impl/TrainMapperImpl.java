@@ -5,6 +5,8 @@ import com.solvd.underground.persistence.MyBatisConfig;
 import com.solvd.underground.persistence.TrainRepository;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.Optional;
+
 public class TrainMapperImpl implements TrainRepository {
 
     @Override
@@ -16,7 +18,7 @@ public class TrainMapperImpl implements TrainRepository {
     }
 
     @Override
-    public Train read(Long id) {
+    public Optional<Train> read(Long id) {
         try (SqlSession session = MyBatisConfig.getSqlSessionFactory().openSession(true)) {
             TrainRepository mapper = session.getMapper(TrainRepository.class);
             return mapper.read(id);

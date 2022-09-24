@@ -5,6 +5,8 @@ import com.solvd.underground.persistence.MyBatisConfig;
 import com.solvd.underground.persistence.StationRepository;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.Optional;
+
 public class StationMapperImpl implements StationRepository {
 
     @Override
@@ -16,7 +18,7 @@ public class StationMapperImpl implements StationRepository {
     }
 
     @Override
-    public Station read(Long id) {
+    public Optional<Station> read(Long id) {
         try (SqlSession session = MyBatisConfig.getSqlSessionFactory().openSession(true)) {
             StationRepository mapper = session.getMapper(StationRepository.class);
             return mapper.read(id);
