@@ -8,9 +8,14 @@
         left join depots d on l.depot_id = d.id where l.id = #{id};
     </select>
 
-    <insert id="create" useGeneratedKeys="true" keyProperty="id">
-        insert into `lines` (depot_id, name) values (#{depot.id}, #{name});
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into `lines` (depot_id, name)
+        values ((select id from depots where address = #{depot.address}), #{name});
     </insert>
+
+    <update id="update" keyProperty="id" keyColumn="id">
+        update `lines` set depot_id = (select id from depots where address = #{line.depot.address}), name = #{line.name} where id = #{id};
+    </update>
 
     <delete id="delete" parameterType="Long">
         delete from `lines` where id = #{id};

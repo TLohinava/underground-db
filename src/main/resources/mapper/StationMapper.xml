@@ -11,8 +11,8 @@
         insert into stations (name) values (#{name});
     </insert>
 
-    <update id="update">
-        update stations set name = #{name} where id = #{id};
+    <update id="update" keyProperty="station.id" keyColumn="id">
+        update stations set name = #{station.name} where id = #{id};
     </update>
 
     <delete id="delete" parameterType="Long">

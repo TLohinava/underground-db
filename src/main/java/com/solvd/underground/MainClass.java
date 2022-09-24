@@ -1,10 +1,7 @@
 package com.solvd.underground;
 
-import com.solvd.underground.domain.rollingstock.Carriage;
-import com.solvd.underground.domain.rollingstock.Train;
-import com.solvd.underground.domain.structure.Depot;
-import com.solvd.underground.domain.structure.Line;
-import com.solvd.underground.domain.structure.Station;
+import com.solvd.underground.domain.rollingstock.*;
+import com.solvd.underground.domain.structure.*;
 import com.solvd.underground.persistence.*;
 import com.solvd.underground.persistence.impl.*;
 
@@ -19,7 +16,7 @@ public class MainClass {
         carriage.setNumber(1111);
 
         Station station = new Station();
-        station.setName("Mogilevskaya");
+        station.setName("KGorka");
 
         Train train = new Train();
         train.setNumber(1066);
@@ -35,18 +32,14 @@ public class MainClass {
         line.setStations(List.of(station));
 
 //        CarriageRepository cm = new CarriageMapperImpl();
-//        cm.update(carriage, 20l);
-//        DepotRepository dr = new DepotMapperImpl();
-//        dr.update(depot, 18l);
-//        dr.delete(10l);
 
-//        LineRepository lr = new LineMapperImpl();
-//        lr.create(line);
+        DepotRepository dr = new DepotMapperImpl();
+
+        LineRepository lr = new LineMapperImpl();
 
 //        StationRepository sr = new StationMapperImpl();
-//        sr.update(station,9l);
 
-//        TrainRepository tr = new TrainMapperImpl();
-//        System.out.println(tr.read(16l).getCarriages().size());
+        TrainRepository tr = new TrainMapperImpl();
+        System.out.println(tr.read(1l).getCarriages().size());
     }
 }

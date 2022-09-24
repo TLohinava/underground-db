@@ -26,6 +26,6 @@
     <resultMap id="TrainResultMap" type="com.solvd.underground.domain.rollingstock.Train" autoMapping="false">
         <id property="id" column="train_id" />
         <result property="number" column="train_number"/>
-        <collection property="carriages" ofType="Carriage" resultMap="com.solvd.underground.persistence.CarriageRepository.CarriageResultMap"/>
+        <collection property="carriages" resultMap="com.solvd.underground.persistence.CarriageRepository.CarriageResultMap"/>
     </resultMap>
 </mapper>

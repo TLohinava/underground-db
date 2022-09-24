@@ -7,13 +7,13 @@
         select id as depot_id, address as depot_address from depots where id = #{id};
     </select>
 
-    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into depots (id, address) values (#{id}, #{address});
         insert into `lines` (depot_id) values (#{id});
     </insert>
 
-    <update id="update">
-        update depots set address = #{address} where id = #{id};
+    <update id="update" keyProperty="depot.id" keyColumn="id">
+        update depots set address = #{depot.address} where id = #{id};
     </update>
 
     <delete id="delete" parameterType="Long">
