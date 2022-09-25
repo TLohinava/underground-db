@@ -14,7 +14,7 @@
 
     <select id="read" resultMap="DepotResultMap">
         select
-        <include refid="depotTrainColumns" />
+        <include refid="depotTrainColumns"/>
         from depots d
         left join trains t on d.id = t.depot_id
         left join carriages c on t.id = c.train_id
@@ -23,7 +23,6 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into depots (id, address) values (#{id}, #{address});
-        insert into `lines` (depot_id) values (#{id});
     </insert>
 
     <update id="update">
@@ -35,8 +34,9 @@
     </delete>
 
     <resultMap id="DepotResultMap" type="com.solvd.underground.domain.structure.Depot" autoMapping="false">
-        <id property="id" column="depot_id" />
+        <id property="id" column="depot_id"/>
         <result property="address" column="depot_address"/>
-        <collection property="trains" ofType="Train" resultMap="com.solvd.underground.persistence.TrainRepository.TrainResultMap"/>
+        <collection property="trains" ofType="Train"
+                    resultMap="com.solvd.underground.persistence.TrainRepository.TrainResultMap"/>
     </resultMap>
 </mapper>

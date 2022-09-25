@@ -8,7 +8,9 @@
     </sql>
 
     <select id="read" resultMap="StationResultMap">
-        select <include refid="stationColumns" /> from stations where id = #{id};
+        select
+        <include refid="stationColumns"/>
+        from stations where id = #{id};
     </select>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
@@ -24,7 +26,9 @@
     </delete>
 
     <resultMap id="StationResultMap" type="com.solvd.underground.domain.structure.Station" autoMapping="false">
-        <id property="id" column="station_id" />
+        <id property="id" column="station_id"/>
         <result property="name" column="station_name"/>
+        <collection property="lines" ofType="Line"
+                    resultMap="com.solvd.underground.persistence.LineRepository.LineResultMap"/>
     </resultMap>
 </mapper>

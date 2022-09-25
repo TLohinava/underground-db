@@ -14,7 +14,7 @@
 
     <select id="read" resultMap="TrainResultMap">
         select
-        <include refid="trainCarriageColumns" />
+        <include refid="trainCarriageColumns"/>
         from trains t
         left join carriages c on t.id = c.train_id where t.id = #{id} ;
     </select>

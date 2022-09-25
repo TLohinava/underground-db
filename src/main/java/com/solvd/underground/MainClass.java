@@ -2,8 +2,8 @@ package com.solvd.underground;
 
 import com.solvd.underground.domain.rollingstock.*;
 import com.solvd.underground.domain.structure.*;
-import com.solvd.underground.persistence.*;
-import com.solvd.underground.persistence.impl.mybatis.*;
+import com.solvd.underground.service.*;
+import com.solvd.underground.service.impl.*;
 
 import java.util.List;
 
@@ -13,33 +13,30 @@ public class MainClass {
         Carriage carriage = new Carriage();
         carriage.setSeatCapacity(100);
         carriage.setManufacturer("Stadler");
-        carriage.setNumber(6655);
+        carriage.setNumber(7896);
 
         Station station = new Station();
         station.setName("Mogilevskaya");
 
         Train train = new Train();
-        train.setNumber(5566);
+        train.setNumber(3214);
         train.setCarriages(List.of(carriage));
 
         Depot depot = new Depot();
-        depot.setAddress("Moskovskaya, 5");
+        depot.setAddress("Nemiga, 5");
         depot.setTrains(List.of(train));
 
         Line line = new Line();
         line.setDepot(depot);
-        line.setName("Autozavodskaya");
+        line.setName("Zelenaluzhskaya");
         line.setStations(List.of(station));
 
-        CarriageRepository cm = new CarriageMapperImpl();
+        CarriageService cs = new CarriageServiceImpl();
 
-        DepotRepository dr = new DepotMapperImpl();
+        DepotService ds = new DepotServiceImpl();
 
-        LineRepository lr = new LineMapperImpl();
-        lr.readAll().forEach(l -> System.out.println(l.getName()));
+        LineService ls = new LineServiceImpl();
 
-        StationRepository sr = new StationMapperImpl();
-
-        TrainRepository tr = new TrainMapperImpl();
+        StationService ss = new StationServiceImpl();
     }
 }

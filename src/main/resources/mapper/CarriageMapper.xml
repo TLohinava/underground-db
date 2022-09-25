@@ -8,7 +8,9 @@
     </sql>
 
     <select id="read" resultMap="CarriageResultMap">
-        select <include refid="carriageColumns" /> from carriages c
+        select
+        <include refid="carriageColumns"/>
+        from carriages c
         left join trains t on c.train_id = t.id where c.id = #{id} ;
     </select>
 
@@ -30,7 +32,7 @@
     </delete>
 
     <resultMap id="CarriageResultMap" type="com.solvd.underground.domain.rollingstock.Carriage" autoMapping="false">
-        <id property="id" column="carriage_id" />
+        <id property="id" column="carriage_id"/>
         <result property="seatCapacity" column="seat_capacity"/>
         <result property="number" column="carriage_number"/>
         <result property="manufacturer" column="manufacturer"/>

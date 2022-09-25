@@ -6,6 +6,10 @@ public interface StationService {
 
     Station create(Station station);
 
+    Station read(Long id);
+
+    void update(Station station, Long id);
+
     void delete(int id);
 
 }

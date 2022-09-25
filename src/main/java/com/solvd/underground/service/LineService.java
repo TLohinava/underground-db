@@ -10,6 +10,10 @@ public interface LineService {
 
     List<Line> getAll();
 
+    Line read(Long id);
+
+    void update(Line line, Long id);
+
     void delete(Long id);
 
 }

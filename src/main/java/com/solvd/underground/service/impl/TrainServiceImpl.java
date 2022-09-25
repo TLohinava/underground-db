@@ -3,7 +3,7 @@ package com.solvd.underground.service.impl;
 import com.solvd.underground.domain.exception.QueryException;
 import com.solvd.underground.domain.rollingstock.*;
 import com.solvd.underground.persistence.TrainRepository;
-import com.solvd.underground.persistence.impl.jdbc.TrainRepositoryImpl;
+import com.solvd.underground.persistence.impl.mybatis.TrainMapperImpl;
 import com.solvd.underground.service.*;
 
 import java.util.List;
@@ -15,7 +15,9 @@ public class TrainServiceImpl implements TrainService {
     private final CarriageService carriageService;
 
     public TrainServiceImpl() {
-        this.trainRepository = new TrainRepositoryImpl();
+//        this.trainRepository = new TrainRepositoryImpl();
+//        this.carriageService = new CarriageServiceImpl();
+        this.trainRepository = new TrainMapperImpl();
         this.carriageService = new CarriageServiceImpl();
     }
 

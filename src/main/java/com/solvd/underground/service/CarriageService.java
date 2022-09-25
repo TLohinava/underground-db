@@ -6,8 +6,6 @@ public interface CarriageService {
 
     Carriage create(Carriage carriage, Long trainId);
 
-    void create(Carriage carriage);
-
     void update(Carriage carriage, Long id);
 
     void delete(int id);

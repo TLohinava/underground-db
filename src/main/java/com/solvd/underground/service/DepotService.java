@@ -8,6 +8,8 @@ public interface DepotService {
 
     Depot findDepot(Long id);
 
+    void update(Depot depot, Long id);
+
     void delete(int id);
 
 }
