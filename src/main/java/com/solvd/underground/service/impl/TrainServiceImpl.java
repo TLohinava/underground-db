@@ -48,7 +48,7 @@ public class TrainServiceImpl implements TrainService {
     }
 
     @Override
-    public void delete(int id) {
-        trainRepository.delete((long) id);
+    public void delete(Long id) {
+        trainRepository.delete(id);
     }
 }

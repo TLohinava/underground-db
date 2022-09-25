@@ -10,6 +10,6 @@ public interface StationService {
 
     void update(Station station, Long id);
 
-    void delete(int id);
+    void delete(Long id);
 
 }

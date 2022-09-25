@@ -25,7 +25,7 @@ public class StationServiceImpl implements StationService {
     @Override
     public Station read(Long id) {
         return stationRepository.read(id)
-                .orElseThrow(() -> new QueryException("No line found."));
+                .orElseThrow(() -> new QueryException("No station found."));
     }
 
     @Override
@@ -34,7 +34,7 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public void delete(int id) {
-        stationRepository.delete((long) id);
+    public void delete(Long id) {
+        stationRepository.delete(id);
     }
 }

@@ -1,6 +1,7 @@
 package com.solvd.underground.persistence.impl.mybatis;
 
 import com.solvd.underground.domain.structure.Line;
+import com.solvd.underground.domain.structure.Station;
 import com.solvd.underground.persistence.LineRepository;
 import com.solvd.underground.persistence.MyBatisConfig;
 import org.apache.ibatis.session.SqlSession;
@@ -15,6 +16,14 @@ public class LineMapperImpl implements LineRepository {
         try (SqlSession session = MyBatisConfig.getSqlSessionFactory().openSession(true)) {
             LineRepository mapper = session.getMapper(LineRepository.class);
             mapper.create(line);
+        }
+    }
+
+    @Override
+    public void createStationConnection(Line line, Station station) {
+        try (SqlSession session = MyBatisConfig.getSqlSessionFactory().openSession(true)) {
+            LineRepository mapper = session.getMapper(LineRepository.class);
+            mapper.createStationConnection(line, station);
         }
     }
 

@@ -34,7 +34,7 @@ public class CarriageServiceImpl implements CarriageService {
     }
 
     @Override
-    public void delete(int id) {
-        carriageRepository.delete((long) id);
+    public void delete(Long id) {
+        carriageRepository.delete(id);
     }
 }

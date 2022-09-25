@@ -10,6 +10,6 @@ public interface TrainService {
 
     void update(Train train, Long id, Long depotId);
 
-    void delete(int id);
+    void delete(Long id);
 
 }

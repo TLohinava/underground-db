@@ -3,10 +3,9 @@ package com.solvd.underground.persistence.impl.jdbc;
 import com.solvd.underground.domain.exception.ConnectionException;
 import com.solvd.underground.domain.exception.QueryException;
 import com.solvd.underground.domain.exception.UnsupportedOperationException;
-import com.solvd.underground.domain.rollingstock.Carriage;
 import com.solvd.underground.domain.structure.Line;
+import com.solvd.underground.domain.structure.Station;
 import com.solvd.underground.persistence.*;
-import com.solvd.underground.persistence.impl.jdbc.DepotRepositoryImpl;
 
 import java.sql.*;
 import java.util.*;
@@ -31,6 +30,11 @@ public class LineRepositoryImpl implements LineRepository {
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
+    }
+
+    @Override
+    public void createStationConnection(Line line, Station station) {
+        throw new UnsupportedOperationException("This operation is not supported with JDBC");
     }
 
     private static Line getById(Long id, List<Line> lineList) {

@@ -9,7 +9,8 @@
 
     <sql id="lineDepotColumns">
         <include refid="com.solvd.underground.persistence.LineRepository.lineColumns"/>,
-        <include refid="com.solvd.underground.persistence.DepotRepository.depotTrainColumns"/>
+        <include refid="com.solvd.underground.persistence.DepotRepository.depotTrainColumns"/>,
+        <include refid="com.solvd.underground.persistence.StationRepository.stationColumns"/>
     </sql>
 
     <sql id="readLines">
@@ -19,6 +20,8 @@
         left join depots d on l.depot_id = d.id
         left join trains t on d.id = t.depot_id
         left join carriages c on t.id = c.train_id
+        left join line_stations ls on l.id = ls.line_id
+        left join stations s on ls.station_id = s.id
     </sql>
 
     <select id="read" resultMap="LineResultMap">
@@ -35,13 +38,19 @@
         values ((select id from depots where address = #{depot.address}), #{name});
     </insert>
 
+    <insert id="createStationConnection" useGeneratedKeys="true" keyColumn="id">
+        insert into line_stations (line_id, station_id)
+        values ((select id from `lines` where name = #{line.name}),
+        (select id from stations where name = #{station.name}))
+    </insert>
+
     <update id="update">
         update `lines` set depot_id = (select id from depots where address = #{line.depot.address}), name = #{line.name}
         where id = #{id};
     </update>
 
     <delete id="delete" parameterType="Long">
-        delete from `lines` where id = #{id};
+        delete ls, l from line_stations ls inner join `lines` l where ls.station_id=l.id and l.id=#{id};
     </delete>
 
     <resultMap id="LineResultMap" type="com.solvd.underground.domain.structure.Line" autoMapping="false">

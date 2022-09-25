@@ -47,7 +47,7 @@ public class DepotServiceImpl implements DepotService {
     }
 
     @Override
-    public void delete(int id) {
-        depotRepository.delete((long) id);
+    public void delete(Long id) {
+        depotRepository.delete(id);
     }
 }

@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.solvd.underground.persistence.StationRepository">
     <sql id="stationColumns">
-        id as station_id, name as station_name
+        s.id as station_id, s.name as station_name
     </sql>
 
     <select id="read" resultMap="StationResultMap">
@@ -21,14 +21,12 @@
         update stations set name = #{station.name} where id = #{id};
     </update>
 
-    <delete id="delete" parameterType="Long">
-        delete from stations where id = #{id};
+    <delete id="delete">
+        delete ls, s from line_stations ls inner join stations s where ls.station_id=s.id and s.id=#{id};
     </delete>
 
     <resultMap id="StationResultMap" type="com.solvd.underground.domain.structure.Station" autoMapping="false">
         <id property="id" column="station_id"/>
         <result property="name" column="station_name"/>
-        <collection property="lines" ofType="Line"
-                    resultMap="com.solvd.underground.persistence.LineRepository.LineResultMap"/>
     </resultMap>
 </mapper>

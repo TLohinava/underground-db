@@ -10,6 +10,6 @@ public interface DepotService {
 
     void update(Depot depot, Long id);
 
-    void delete(int id);
+    void delete(Long id);
 
 }

@@ -19,9 +19,9 @@ public class LineServiceImpl implements LineService {
 //        this.lineRepository = new LineRepositoryImpl();
 //        this.stationService = new StationServiceImpl();
 //        this.depotService = new DepotServiceImpl();
+        this.lineRepository = new LineMapperImpl();
         this.stationService = new StationServiceImpl();
         this.depotService = new DepotServiceImpl();
-        this.lineRepository = new LineMapperImpl();
     }
 
     @Override
@@ -40,6 +40,7 @@ public class LineServiceImpl implements LineService {
             line.setDepot(newDepot);
         }
         lineRepository.create(line);
+        line.getStations().forEach(st -> lineRepository.createStationConnection(line, st));
         return line;
     }
 
