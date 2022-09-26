@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solvd.underground.persistence.StationRepository">
+    <sql id="stationColumns">
+        s.id as station_id, s.name as station_name
+    </sql>
+
+    <select id="read" resultMap="StationResultMap">
+        select
+        <include refid="stationColumns"/>
+        from stations where id = #{id};
+    </select>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into stations (name) values (#{name});
+    </insert>
+
+    <update id="update">
+        update stations set name = #{station.name} where id = #{id};
+    </update>
+
+    <delete id="delete">
+        delete ls, s from line_stations ls inner join stations s where ls.station_id=s.id and s.id=#{id};
+    </delete>
+
+    <resultMap id="StationResultMap" type="com.solvd.underground.domain.structure.Station" autoMapping="false">
+        <id property="id" column="station_id"/>
+        <result property="name" column="station_name"/>
+    </resultMap>
+</mapper>

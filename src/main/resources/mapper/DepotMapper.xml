@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solvd.underground.persistence.DepotRepository">
+    <sql id="depotColumns">
+        d.id as depot_id, d.address as depot_address
+    </sql>
+
+    <sql id="depotTrainColumns">
+        <include refid="com.solvd.underground.persistence.DepotRepository.depotColumns"/>,
+        <include refid="com.solvd.underground.persistence.TrainRepository.trainCarriageColumns"/>
+    </sql>
+
+    <select id="read" resultMap="DepotResultMap">
+        select
+        <include refid="depotTrainColumns"/>
+        from depots d
+        left join trains t on d.id = t.depot_id
+        left join carriages c on t.id = c.train_id
+        where d.id = #{id};
+    </select>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into depots (id, address) values (#{id}, #{address});
+    </insert>
+
+    <update id="update">
+        update depots set address = #{depot.address} where id = #{id};
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        delete from depots where id = #{id};
+    </delete>
+
+    <resultMap id="DepotResultMap" type="com.solvd.underground.domain.structure.Depot" autoMapping="false">
+        <id property="id" column="depot_id"/>
+        <result property="address" column="depot_address"/>
+        <collection property="trains" ofType="Train"
+                    resultMap="com.solvd.underground.persistence.TrainRepository.TrainResultMap"/>
+    </resultMap>
+</mapper>

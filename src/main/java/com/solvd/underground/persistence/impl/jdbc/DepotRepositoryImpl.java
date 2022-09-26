@@ -1,4 +1,4 @@
-package com.solvd.underground.persistence.impl;
+package com.solvd.underground.persistence.impl.jdbc;
 
 import com.solvd.underground.domain.exception.ConnectionException;
 import com.solvd.underground.domain.structure.Depot;
@@ -53,8 +53,8 @@ public class DepotRepositoryImpl implements DepotRepository {
         return depot;
     }
 
-    public Depot findDepot() {
-        Depot depot;
+    public Optional<Depot> read(Long id) {
+        Depot depot = new Depot();
         Connection connection = CONNECTION_POOL.getConnection();
 
         String query = "Select d.id as depot_id, d.address as depot_address, \n" +
@@ -62,18 +62,14 @@ public class DepotRepositoryImpl implements DepotRepository {
                 "c.seat_capacity, c.carriage_number, c.manufacturer \n" +
                 "from depots d \n" +
                 "left join trains t on d.id = t.depot_id \n" +
-                "left join carriages c on t.id = c.train_id \n";
+                "left join carriages c on t.id = c.train_id \n" +
+                "where d.id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, id);
             ResultSet set = statement.executeQuery();
-            List<Depot> depots = new ArrayList<>();
-            depot = new Depot();
             while (set.next()) {
-                Long depotId = set.getLong("depot_id");
-                depot = getById(depotId, depots);
-                depot.setId(depotId);
-                depot.setAddress(set.getString("depot_address"));
-                depot.setTrains(TrainRepositoryImpl.mapTrains(set));
+                depot = mapDepot(set);
             }
 
         } catch (SQLException e) {
@@ -81,7 +77,7 @@ public class DepotRepositoryImpl implements DepotRepository {
         } finally {
             CONNECTION_POOL.releaseConnection(connection);
         }
-        return depot;
+        return Optional.of(depot);
     }
 
     @Override

@@ -18,19 +18,19 @@ public class Depot {
         this.id = id;
     }
 
-    public List<Train> getTrains() {
-        return trains;
-    }
-
-    public void setTrains(List<Train> trains) {
-        this.trains = trains;
-    }
-
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<Train> getTrains() {
+        return trains;
+    }
+
+    public void setTrains(List<Train> trains) {
+        this.trains = trains;
     }
 }

@@ -1,4 +1,4 @@
-package com.solvd.underground.persistence.impl;
+package com.solvd.underground.persistence.impl.jdbc;
 
 import com.solvd.underground.domain.exception.ConnectionException;
 import com.solvd.underground.domain.exception.UnsupportedOperationException;
@@ -71,7 +71,7 @@ public class CarriageRepositoryImpl implements CarriageRepository {
         return carriages;
     }
 
-    public Optional<Carriage> findCarriage(Long trainId) {
+    public Optional<Carriage> read(Long trainId) {
         Optional<Carriage> carriage;
         Connection connection = CONNECTION_POOL.getConnection();
 

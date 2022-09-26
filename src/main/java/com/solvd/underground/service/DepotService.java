@@ -6,8 +6,10 @@ public interface DepotService {
 
     Depot create(Depot depot);
 
-    Depot findDepot();
+    Depot findDepot(Long id);
 
-    void delete(int id);
+    void update(Depot depot, Long id);
+
+    void delete(Long id);
 
 }

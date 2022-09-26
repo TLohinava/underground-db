@@ -1,9 +1,10 @@
 package com.solvd.underground.service.impl;
 
+import com.solvd.underground.domain.exception.QueryException;
 import com.solvd.underground.domain.rollingstock.Train;
 import com.solvd.underground.domain.structure.Depot;
 import com.solvd.underground.persistence.DepotRepository;
-import com.solvd.underground.persistence.impl.DepotRepositoryImpl;
+import com.solvd.underground.persistence.impl.mybatis.DepotMapperImpl;
 import com.solvd.underground.service.*;
 
 import java.util.List;
@@ -15,8 +16,10 @@ public class DepotServiceImpl implements DepotService {
     private final TrainService trainService;
 
     public DepotServiceImpl() {
-        this.depotRepository = new DepotRepositoryImpl();
+//        this.depotRepository = new DepotRepositoryImpl();
+//        this.trainService = new TrainServiceImpl();
         this.trainService = new TrainServiceImpl();
+        this.depotRepository = new DepotMapperImpl();
     }
 
     @Override
@@ -33,12 +36,18 @@ public class DepotServiceImpl implements DepotService {
     }
 
     @Override
-    public Depot findDepot() {
-        return depotRepository.findDepot();
+    public Depot findDepot(Long id) {
+        return depotRepository.read(id)
+                .orElseThrow(() -> new QueryException("No depots found."));
     }
 
     @Override
-    public void delete(int id) {
-        depotRepository.delete((long) id);
+    public void update(Depot depot, Long id) {
+        depotRepository.update(depot, id);
+    }
+
+    @Override
+    public void delete(Long id) {
+        depotRepository.delete(id);
     }
 }

@@ -1,48 +1,42 @@
 package com.solvd.underground;
 
-import com.solvd.underground.domain.employee.Driver;
 import com.solvd.underground.domain.rollingstock.*;
 import com.solvd.underground.domain.structure.*;
 import com.solvd.underground.service.*;
 import com.solvd.underground.service.impl.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class MainClass {
 
     public static void main(String[] args) {
-        Driver driver = new Driver();
-        driver.setFirstName("Anton");
-        driver.setLastName("Barsky");
-        driver.setDob(LocalDate.of(1996, 1, 1));
-
         Carriage carriage = new Carriage();
         carriage.setSeatCapacity(100);
         carriage.setManufacturer("Stadler");
-        carriage.setNumber(6655);
+        carriage.setNumber(7896);
 
-        Station station = new Station();
-        station.setName("Mogilevskaya");
+        Station stationOne = new Station();
+        stationOne.setName("Malinovka");
+        Station stationTwo = new Station();
+        stationTwo.setName("Kastrychnitskaia");
 
         Train train = new Train();
-        train.setNumber(5566);
+        train.setNumber(3214);
         train.setCarriages(List.of(carriage));
-        train.setDrivers(List.of(driver));
 
         Depot depot = new Depot();
-        depot.setAddress("Moskovskaya, 5");
+        depot.setAddress("Fabriciusa, 24");
         depot.setTrains(List.of(train));
 
         Line line = new Line();
         line.setDepot(depot);
-        line.setName("Autozavodskaya");
-        line.setStations(List.of(station));
+        line.setName("Moskovskaya");
+        line.setStations(List.of(stationOne, stationTwo));
 
         LineService ls = new LineServiceImpl();
         ls.create(line);
-
-        List<Line> lines = ls.getAll();
-        System.out.println();
+        ls.getAll().stream()
+                .flatMap(l -> l.getStations().stream())
+                .forEach(st -> System.out.println(st.getName()));
     }
 }

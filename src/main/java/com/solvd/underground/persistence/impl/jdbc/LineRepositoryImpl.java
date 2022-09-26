@@ -1,8 +1,10 @@
-package com.solvd.underground.persistence.impl;
+package com.solvd.underground.persistence.impl.jdbc;
 
 import com.solvd.underground.domain.exception.ConnectionException;
 import com.solvd.underground.domain.exception.QueryException;
+import com.solvd.underground.domain.exception.UnsupportedOperationException;
 import com.solvd.underground.domain.structure.Line;
+import com.solvd.underground.domain.structure.Station;
 import com.solvd.underground.persistence.*;
 
 import java.sql.*;
@@ -30,6 +32,11 @@ public class LineRepositoryImpl implements LineRepository {
         }
     }
 
+    @Override
+    public void createStationConnection(Line line, Station station) {
+        throw new UnsupportedOperationException("This operation is not supported with JDBC");
+    }
+
     private static Line getById(Long id, List<Line> lineList) {
         return lineList.stream()
                 .filter(line -> line.getId().equals(id))
@@ -55,7 +62,7 @@ public class LineRepositoryImpl implements LineRepository {
     }
 
     @Override
-    public List<Line> findAll() {
+    public List<Line> readAll() {
         List<Line> lines;
         Connection connection = CONNECTION_POOL.getConnection();
 
@@ -79,6 +86,11 @@ public class LineRepositoryImpl implements LineRepository {
             throw new QueryException("No lines available.");
         }
         return lines;
+    }
+
+    @Override
+    public Optional<Line> read(Long id) {
+        throw new UnsupportedOperationException("This operation is not supported with the given amount of arguments");
     }
 
     @Override

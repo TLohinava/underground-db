@@ -1,4 +1,4 @@
-package com.solvd.underground.persistence.impl;
+package com.solvd.underground.persistence.impl.jdbc;
 
 import com.solvd.underground.domain.exception.ConnectionException;
 import com.solvd.underground.domain.exception.UnsupportedOperationException;
@@ -65,15 +65,17 @@ public class TrainRepositoryImpl implements TrainRepository {
         return mapRow(rs, trains);
     }
 
-    public Optional<Train> findTrain() {
+    public Optional<Train> read(Long id) {
         Optional<Train> train = Optional.empty();
         Connection connection = CONNECTION_POOL.getConnection();
 
         String query = "Select t.id as train_id, t.number as train_number, \n" +
                 "c.id as carriage_id, c.carriage_number, c.manufacturer, c.seat_capacity from  trains t \n" +
-                "left join carriages c on c.train_id = t.id";
+                "left join carriages c on c.train_id = t.id \n" +
+                "where t.id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, id);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 List<Train> trains = mapTrains(set);

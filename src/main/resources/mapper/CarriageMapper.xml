@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solvd.underground.persistence.CarriageRepository">
+    <sql id="carriageColumns">
+        c.id as carriage_id, c.train_id, c.manufacturer, c.seat_capacity, c.carriage_number
+    </sql>
+
+    <select id="read" resultMap="CarriageResultMap">
+        select
+        <include refid="carriageColumns"/>
+        from carriages c
+        left join trains t on c.train_id = t.id where c.id = #{id} ;
+    </select>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="carriage.id" keyColumn="id">
+        insert into carriages (train_id, manufacturer, seat_capacity, carriage_number)
+        values (#{trainId}, #{carriage.manufacturer}, #{carriage.seatCapacity}, #{carriage.number});
+    </insert>
+
+    <update id="update">
+        update carriages
+        set manufacturer = #{carriage.manufacturer},
+        seat_capacity = #{carriage.seatCapacity},
+        carriage_number = #{carriage.number}
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from carriages where id = #{id};
+    </delete>
+
+    <resultMap id="CarriageResultMap" type="com.solvd.underground.domain.rollingstock.Carriage" autoMapping="false">
+        <id property="id" column="carriage_id"/>
+        <result property="seatCapacity" column="seat_capacity"/>
+        <result property="number" column="carriage_number"/>
+        <result property="manufacturer" column="manufacturer"/>
+    </resultMap>
+</mapper>

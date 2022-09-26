@@ -6,6 +6,7 @@ public class Station {
 
     private Long id;
     private String name;
+    private List<Line> lines;
     private List<TicketBox> ticketBoxes;
     private List<Turnstile> turnstiles;
     private List<Platform> platforms;
@@ -24,6 +25,14 @@ public class Station {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Line> getLines() {
+        return lines;
+    }
+
+    public void setLines(List<Line> lines) {
+        this.lines = lines;
     }
 
     public List<TicketBox> getTicketBoxes() {
