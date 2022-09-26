@@ -21,7 +21,7 @@ public class LineRepositoryImpl implements LineRepository {
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             while (rs.next()) {
-                line.setId(rs.getLong(1));
+                line.toBuilder().id(rs.getLong(1));
             }
         } catch (SQLException e) {
             throw new ConnectionException("ConnectionException in lines: creation failed." + e);
@@ -36,7 +36,7 @@ public class LineRepositoryImpl implements LineRepository {
                 .findFirst()
                 .orElseGet(() -> {
                     Line newLine = new Line();
-                    newLine.setId(id);
+                    newLine.toBuilder().id(id);
                     lineList.add(newLine);
                     return newLine;
                 });
@@ -47,9 +47,8 @@ public class LineRepositoryImpl implements LineRepository {
         while (rs.next()) {
             Long id = rs.getLong("line_id");
             Line line = getById(id, lines);
-            line.setName(rs.getString("line_name"));
-
-            line.setDepot(DepotRepositoryImpl.mapDepot(rs));
+            line.toBuilder().name(rs.getString("line_name"));
+            line.toBuilder().depot(DepotRepositoryImpl.mapDepot(rs));
         }
         return lines;
     }

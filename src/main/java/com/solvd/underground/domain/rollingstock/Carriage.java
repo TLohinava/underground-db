@@ -1,11 +1,38 @@
 package com.solvd.underground.domain.rollingstock;
 
-public class Carriage {
+public class Carriage implements IAnnounce{
 
     private Long id;
     private Integer seatCapacity;
     private String manufacturer;
     private Integer number;
+
+    @Override
+    public void onEvent(EventType type) {
+        switch(type) {
+            case ARRIVAL:
+                this.announce();
+                this.doorsOpen();
+                break;
+            case DEPARTURE:
+                this.doorsClose();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void doorsOpen() {
+        System.out.println("Doors are opening.");
+    }
+
+    public void doorsClose() {
+        System.out.println("Mind the closing doors.");
+    }
+
+    public void announce() {
+        System.out.println("We have arrived to the station.");
+    }
 
     public Long getId() {
         return id;
