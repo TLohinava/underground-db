@@ -9,35 +9,60 @@ public class Line {
     private List<Station> stations;
     private Depot depot;
 
-    public Long getId() {
-        return id;
+    public static LineBuilder builder() {
+        return new LineBuilder(new Line());
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public LineBuilder toBuilder() {
+        return new LineBuilder(this);
+    }
+
+    public static class LineBuilder {
+
+        private final Line line;
+
+        public LineBuilder(Line line) {
+            this.line = line;
+        }
+
+        public LineBuilder id (Long id) {
+            this.line.id = id;
+            return this;
+        }
+
+        public LineBuilder name (String name) {
+            this.line.name = name;
+            return this;
+        }
+
+        public LineBuilder stations (List<Station> stations) {
+            this.line.stations = stations;
+            return this;
+        }
+
+        public LineBuilder depot (Depot depot) {
+            this.line.depot = depot;
+            return this;
+        }
+
+        public Line build() {
+            return line;
+        }
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public List<Station> getStations() {
         return stations;
     }
 
-    public void setStations(List<Station> stations) {
-        this.stations = stations;
-    }
-
     public Depot getDepot() {
         return depot;
-    }
-
-    public void setDepot(Depot depot) {
-        this.depot = depot;
     }
 }

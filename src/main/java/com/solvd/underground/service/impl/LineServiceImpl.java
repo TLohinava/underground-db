@@ -26,18 +26,18 @@ public class LineServiceImpl implements LineService {
 
     @Override
     public Line create(Line line) {
-        line.setId(null);
+        line.toBuilder().id(null);
 
         if (line.getStations() != null) {
             List<Station> stations = line.getStations().stream()
                     .map(stationService::create)
                     .collect(Collectors.toList());
-            line.setStations(stations);
+            line.toBuilder().stations(stations);
         }
 
         if (line.getDepot() != null) {
             Depot newDepot = depotService.create(line.getDepot());
-            line.setDepot(newDepot);
+            line.toBuilder().depot(newDepot);
         }
         lineRepository.create(line);
         line.getStations().forEach(st -> lineRepository.createStationConnection(line, st));
