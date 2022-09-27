@@ -13,7 +13,7 @@ public class MainClass {
 
     public static void main(String[] args) {
         /*
-        * Factory pattern is used for the employment of the new staff members.
+        * Factory pattern is used to employ the new staff members.
         */
         Employee driver = EmploymentFactory.employ(EmployeeType.DRIVER);
         driver.setFirstName("Anton");
@@ -23,25 +23,33 @@ public class MainClass {
         Carriage carriageOne = new Carriage();
         carriageOne.setSeatCapacity(100);
         carriageOne.setManufacturer("Stadler");
-        carriageOne.setNumber(6655);
+        carriageOne.setNumber(6654);
         Carriage carriageTwo = new Carriage();
         carriageTwo.setSeatCapacity(100);
         carriageTwo.setManufacturer("Stadler");
         carriageTwo.setNumber(6655);
+        Carriage carriageThree = new Carriage();
+        carriageThree.setSeatCapacity(100);
+        carriageThree.setManufacturer("Stadler");
+        carriageThree.setNumber(6656);
 
         Station stationOne = new Station();
         stationOne.setName("Malinovka");
         Station stationTwo = new Station();
         stationTwo.setName("Kastrychnitskaia");
 
-        Train train = new Train();
-        train.setNumber(5566);
-        train.setCarriages(List.of(carriageOne, carriageTwo));
-        train.setDrivers(List.of((Driver) driver));
+        Train trainOne = new Train();
+        trainOne.setNumber(5566);
+        trainOne.setCarriages(List.of(carriageOne, carriageTwo));
+        trainOne.setDrivers(List.of((Driver) driver));
+
+        Train trainTwo = new Train();
+        trainTwo.setNumber(5567);
+        trainTwo.setCarriages(List.of(carriageThree));
 
         Depot depot = new Depot();
         depot.setAddress("Fabriciusa, 24");
-        depot.setTrains(List.of(train));
+        depot.setTrains(List.of(trainOne, trainTwo));
 
         /*
         * The builder pattern is used to create an immutable line.
@@ -66,10 +74,14 @@ public class MainClass {
         */
         Wallet myWallet = new Wallet();
         myWallet.payWithTravelCard();
-
-        EventHolder.arrive(carriageOne, EventType.ARRIVAL);
-        EventHolder.arrive(carriageTwo, EventType.ARRIVAL);
-//        EventHolder.depart(carriageOne, EventType.DEPARTURE);
+        /*
+        * Train arrives to the station, and each of its carriages has an announcement upon both arrival and departure
+        * using Observer, Facade, Decorator patterns.
+        */
+        EventHolder.arrive(trainOne, EventType.ARRIVAL);
+        EventHolder.arrive(trainTwo, EventType.ARRIVAL);
         EventHolder.announce(EventType.ARRIVAL);
+        EventHolder.depart(trainOne, EventType.DEPARTURE);
+        EventHolder.announce(EventType.DEPARTURE);
     }
 }

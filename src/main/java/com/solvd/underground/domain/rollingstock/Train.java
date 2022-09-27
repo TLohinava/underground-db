@@ -4,12 +4,17 @@ import com.solvd.underground.domain.employee.Driver;
 
 import java.util.List;
 
-public class Train {
+public class Train implements IAnnounce {
 
     private Long id;
     private Integer number;
     private List<Driver> drivers;
     private List<Carriage> carriages;
+
+    @Override
+    public void onEvent(EventType type) {
+        carriages.forEach(c -> c.onEvent(type));
+    }
 
     public Long getId() {
         return id;

@@ -11,11 +11,12 @@ public class Carriage implements IAnnounce{
     public void onEvent(EventType type) {
         switch(type) {
             case ARRIVAL:
-                this.announce();
                 this.doorsOpen();
+                this.announce(type);
                 break;
             case DEPARTURE:
                 this.doorsClose();
+                this.announce(type);
                 break;
             default:
                 break;
@@ -30,8 +31,17 @@ public class Carriage implements IAnnounce{
         System.out.println("Mind the closing doors.");
     }
 
-    public void announce() {
-        System.out.println("We have arrived to the station.");
+    public void announce(EventType type) {
+        switch(type) {
+            case ARRIVAL:
+                System.out.println("We have arrived to the station.");
+                break;
+            case DEPARTURE:
+                System.out.println("We are leaving the station.");
+                break;
+            default:
+                break;
+        }
     }
 
     public Long getId() {

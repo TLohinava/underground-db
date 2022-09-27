@@ -12,7 +12,11 @@ public class EventHolder {
     }
 
     public static void depart(IAnnounce obj, EventType type) {
-//        HOLDER.get(type).removeIf(i -> i.equals(obj));
+        List<IAnnounce> items = HOLDER.get(EventType.ARRIVAL);
+        IAnnounce item = items.get(items.indexOf(obj));
+        HOLDER.forEach((key, value) -> value.removeIf(i -> i.equals(obj)));
+        HOLDER.computeIfAbsent(type, t -> new ArrayList<>());
+        HOLDER.get(type).add(item);
     }
 
     public static void announce(EventType type) {
