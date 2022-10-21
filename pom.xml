@@ -6,11 +6,13 @@
 
     <groupId>com.solvd</groupId>
     <artifactId>underground</artifactId>
-    <version>18.0-SNAPSHOT</version>
+    <version>20.0-SNAPSHOT</version>
 
     <properties>
         <mybatis-version>3.5.11</mybatis-version>
         <mysql-connector-version>8.0.30</mysql-connector-version>
+        <testng-version>7.6.1</testng-version>
+        <slf4j-version>2.0.3</slf4j-version>
     </properties>
 
     <dependencies>
@@ -23,6 +25,22 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql-connector-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j-version}</version>
         </dependency>
     </dependencies>
 
@@ -37,6 +55,17 @@
                         <source>11</source>
                         <target>11</target>
                         <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0-M7</version>
+                    <configuration>
+                        <suiteXmlFiles>
+                            <suiteXmlFile>${project.build.directory}/test-classes/suite/${suite}.xml
+                            </suiteXmlFile>
+                        </suiteXmlFiles>
                     </configuration>
                 </plugin>
             </plugins>
